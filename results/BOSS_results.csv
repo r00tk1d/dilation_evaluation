@@ -1,0 +1,3 @@
+,Classifier,Dataset,Accuracy,Fit-Time,Predict-Time,num_of_random_dilations,window_sizes,norm_options,word_length,dilation_algo
+0,BOSS,ArrowHead,0.84571,32.11268,9.789,NULL,10 to max,True and False,"[16, 14, 12, 10, 8]",NULL
+1,BOSS,ALL_AVERAGE,0.84571,32.11268,9.789,NULL,10 to max,True and False,"[16, 14, 12, 10, 8]",NULL
