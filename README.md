@@ -1,5 +1,5 @@
 ### Setup ###
-0. Clone this Repo
+0. Clone this Repo and install Python 3.8
 1. Clone Repo: sktime_dilation
 2. Create and activate conda environment
 3. Execute <code>pip install --editable .[dev]</code> in sktime_dilation Repo
