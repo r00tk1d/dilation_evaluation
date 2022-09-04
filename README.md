@@ -9,3 +9,5 @@
 
 ### Good to know ###
 If you change something in the sktime_dilation repo, restart the jupyter notebook kernel to apply the changes to the jupyter notebook
+
+With <code>jupyter nbconvert --to python main.ipynb </code> you can create a python file out of the jupyter notebook to execute in the terminal
