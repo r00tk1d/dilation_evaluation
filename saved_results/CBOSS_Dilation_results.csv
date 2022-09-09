@@ -1,0 +1,21 @@
+,Classifier,Dataset,Accuracy,Fit-Time,Predict-Time,num_of_random_dilations,win_lengths,norm_options,word_lengths,alphabet_size,feature_selection,max_feature_count,total_feature_count
+0,CBOSS_Dilation,ArrowHead,0.78857,0.05889,1.06955,50,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,256,12800
+1,CBOSS_Dilation,ALL_AVERAGE,0.78857,0.05889,1.06955,50,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,256,12800
+0,CBOSS_Dilation,ArrowHead,0.82286,2.19925,5.45921,50,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,256,12800
+1,CBOSS_Dilation,ALL_AVERAGE,0.82286,2.19925,5.45921,50,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,256,12800
+0,CBOSS_Dilation,ArrowHead,0.85143,2.16639,5.38971,50,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,256,12800
+1,CBOSS_Dilation,ALL_AVERAGE,0.85143,2.16639,5.38971,50,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,256,12800
+0,CBOSS_Dilation,ArrowHead,0.74286,2.19563,5.555,50,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,256,12800
+1,CBOSS_Dilation,ALL_AVERAGE,0.74286,2.19563,5.555,50,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,256,12800
+0,CBOSS_Dilation,ArrowHead,0.77143,2.16129,5.41302,50,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,200,10000
+1,CBOSS_Dilation,ALL_AVERAGE,0.77143,2.16129,5.41302,50,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,200,10000
+0,CBOSS_Dilation,ArrowHead,0.81143,4.22233,5.58761,50,"[32, 28, 24, 20, 16]","[True, False]",[8],2,random,200,10000
+1,CBOSS_Dilation,ALL_AVERAGE,0.81143,4.22233,5.58761,50,"[32, 28, 24, 20, 16]","[True, False]",[8],2,random,200,10000
+0,CBOSS_Dilation,ArrowHead,0.78286,2.15003,5.41401,50,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,256,12800
+1,CBOSS_Dilation,ALL_AVERAGE,0.78286,2.15003,5.41401,50,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,256,12800
+0,CBOSS_Dilation,ArrowHead,0.81143,2.14663,5.44013,50,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,256,12800
+1,CBOSS_Dilation,ALL_AVERAGE,0.81143,2.14663,5.44013,50,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,256,12800
+0,CBOSS_Dilation,ArrowHead,0.85714,2.11219,5.25962,12800,50,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,256
+1,CBOSS_Dilation,ALL_AVERAGE,0.85714,2.11219,5.25962,12800,50,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,256
+0,CBOSS_Dilation,ArrowHead,0.85714,2.11227,5.21181,12800,50,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,256
+1,CBOSS_Dilation,ALL_AVERAGE,0.85714,2.11227,5.21181,12800,50,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,256

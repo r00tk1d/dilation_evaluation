@@ -1,0 +1,43 @@
+,Classifier,Dataset,Accuracy,Fit-Time,Predict-Time,num_of_random_dilations,window_sizes,norm_options,word_length,dilation_algo
+0,CBOSS,ArrowHead,0.84571,24.41309,7.50954,NULL,10 to max,True and False,"[16, 14, 12, 10, 8]",NULL
+1,CBOSS,ALL_AVERAGE,0.84571,24.41309,7.50954,NULL,10 to max,True and False,"[16, 14, 12, 10, 8]",NULL
+0,CBOSS,ArrowHead,0.86857,4.94452,5.50701,NULL,10 to max,True and False,"[16, 14, 12, 10, 8]",NULL
+1,CBOSS,ALL_AVERAGE,0.86857,4.94452,5.50701,NULL,10 to max,True and False,"[16, 14, 12, 10, 8]",NULL
+0,CBOSS,ArrowHead,0.84,4.96699,5.50183,NULL,10 to max,True and False,"[16, 14, 12, 10, 8]",NULL
+1,CBOSS,ALL_AVERAGE,0.84,4.96699,5.50183,NULL,10 to max,True and False,"[16, 14, 12, 10, 8]",NULL
+0,CBOSS,ArrowHead,0.86857,4.75423,5.87873,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256,?
+1,CBOSS,ALL_AVERAGE,0.86857,4.75423,5.87873,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256,?
+0,CBOSS,ArrowHead,0.83429,5.22876,5.7707,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256,?
+1,CBOSS,ALL_AVERAGE,0.83429,5.22876,5.7707,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256,?
+0,CBOSS,ArrowHead,0.83429,5.26914,5.87325,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256,?
+1,CBOSS,ALL_AVERAGE,0.83429,5.26914,5.87325,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256,?
+0,CBOSS,ArrowHead,0.85714,4.91474,5.56403,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256,?
+1,CBOSS,ALL_AVERAGE,0.85714,4.91474,5.56403,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256,?
+0,CBOSS,ArrowHead,0.84571,4.81673,5.40282,-1,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+1,CBOSS,ALL_AVERAGE,0.84571,4.81673,5.40282,-1,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+0,CBOSS,ArrowHead,0.85143,4.74423,5.37338,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+1,CBOSS,Beef,0.7,5.05586,1.0932,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+2,CBOSS,BeetleFly,0.95,5.08743,0.7959,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+3,CBOSS,BirdChicken,0.95,4.29481,0.78939,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+4,CBOSS,Car,0.83333,16.76006,2.08603,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+5,CBOSS,CBF,0.99778,1.71457,25.03963,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+6,CBOSS,Coffee,1.0,2.29435,0.94407,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+7,CBOSS,DiatomSizeReduction,0.85948,1.90518,9.45515,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+8,CBOSS,DistalPhalanxOutlineAgeGroup,0.76978,6.18458,4.34495,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+9,CBOSS,DistalPhalanxOutlineCorrect,0.75,10.29626,8.75446,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+10,CBOSS,DistalPhalanxTW,0.69784,6.21328,4.49236,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+11,CBOSS,ECG200,0.85,2.36111,2.85283,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+12,CBOSS,ECGFiveDays,1.0,1.593,24.19215,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+13,CBOSS,ItalyPowerDemand,0.92517,0.31371,25.87877,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+14,CBOSS,MiddlePhalanxOutlineAgeGroup,0.6039,5.99034,4.89926,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+15,CBOSS,MiddlePhalanxOutlineCorrect,0.78694,9.60582,9.55819,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+16,CBOSS,MiddlePhalanxTW,0.53247,5.96786,4.82864,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+17,CBOSS,OliveOil,0.86667,5.37678,1.09892,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+18,CBOSS,Plane,1.0,4.46135,3.38945,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+19,CBOSS,ProximalPhalanxOutlineAgeGroup,0.86341,5.95317,6.71722,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+20,CBOSS,ProximalPhalanxOutlineCorrect,0.84192,9.45223,9.92895,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+21,CBOSS,ProximalPhalanxTW,0.77561,5.92712,6.75807,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+22,CBOSS,SyntheticControl,0.94667,3.38667,8.42754,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+23,CBOSS,TwoLeadECG,0.99912,0.82157,31.56082,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+24,CBOSS,Wine,0.68519,5.189,1.83219,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+25,CBOSS,ALL_AVERAGE,0.8414684,5.2380135999999995,8.2036608,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256

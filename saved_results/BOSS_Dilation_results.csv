@@ -89,3 +89,9 @@
 32,BOSS_Dilation,MiddlePhalanxOutlineCorrect,0.78351,1052.68182,182.33523,200,"[9, 11]","[True, False]","[8, 4]",ROCKET
 33,BOSS_Dilation,MiddlePhalanxTW,0.50649,559.73489,97.73649,200,"[9, 11]","[True, False]","[8, 4]",ROCKET
 34,BOSS_Dilation,ALL_AVERAGE,0.8096452941176471,364.027329117647,76.4459261764706,200,"[9, 11]","[True, False]","[8, 4]",ROCKET
+0,BOSS_Dilation,ArrowHead,0.77143,0.04791,1.09925,NULL,10 to max,True and False,"[16, 14, 12, 10, 8]",NULL,ee,eeee,jkjkwer
+1,BOSS_Dilation,ALL_AVERAGE,0.77143,0.04791,1.09925,NULL,10 to max,True and False,"[16, 14, 12, 10, 8]",NULL,ee,eeee,jkjkwer
+0,BOSS_Dilation,ArrowHead,0.76,0.04826,1.1226,NULL,10 to max,True and False,"[16, 14, 12, 10, 8]",NULL,ee,eeee,jkjkwer
+1,BOSS_Dilation,ALL_AVERAGE,0.76,0.04826,1.1226,NULL,10 to max,True and False,"[16, 14, 12, 10, 8]",NULL,ee,eeee,jkjkwer
+0,BOSS_Dilation,ArrowHead,0.86286,0.04764,1.10004,NULL,10 to max,True and False,"[16, 14, 12, 10, 8]",NULL,ee,eeee,jkjkwer
+1,BOSS_Dilation,ALL_AVERAGE,0.86286,0.04764,1.10004,NULL,10 to max,True and False,"[16, 14, 12, 10, 8]",NULL,ee,eeee,jkjkwer
