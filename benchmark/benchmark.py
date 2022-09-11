@@ -69,7 +69,7 @@ def benchmark_clf(clf, dataset):
             feature_count = "NULL"
         result.loc[len(result)] = [clf[1], dataset.name, acc, fit_time, predict_time, feature_count] + clf[3]
         
-        print(f"clf {clf[1]} dataset {dataset.name} done")
+        #print(f"clf {clf[1]} dataset {dataset.name} done")
     except Exception as e:
         print(f"ERROR {e} for dataset {dataset.name} clf {clf[1]}")
     return result

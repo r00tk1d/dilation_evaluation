@@ -26,3 +26,5 @@
 24,CBOSS_Dilation,ALL_AVERAGE,0.7806004166666667,6.70717625,8.158035416666666,12800,50,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,256
 0,CBOSS_Dilation,ArrowHead,0.84571,2.80355,5.39751,15360,60,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,256
 1,CBOSS_Dilation,ALL_AVERAGE,0.84571,2.80355,5.39751,15360,60,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,256
+0,CBOSS_Dilation,ArrowHead,0.81143,3.11968,5.50166,15360,60,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,256
+1,CBOSS_Dilation,ALL_AVERAGE,0.81143,3.11968,5.50166,15360,60,"[32, 28, 24, 20, 16]","[True, False]",[8],2,none,256
