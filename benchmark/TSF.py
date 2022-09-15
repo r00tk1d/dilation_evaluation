@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[11]:
+# In[6]:
 
 
 from sktime.classification.interval_based import TimeSeriesForestClassifier
@@ -12,7 +12,7 @@ from sktime.benchmarking.data import UEADataset, make_datasets
 
 # ### Settings ###
 
-# In[12]:
+# In[7]:
 
 
 fast_datasets = [
@@ -158,7 +158,7 @@ fast_datasets = [
 ]
 
 
-# In[13]:
+# In[8]:
 
 
 all_datasets = [
@@ -293,7 +293,7 @@ all_datasets = [
 ]
 
 
-# In[14]:
+# In[12]:
 
 
 DATA_PATH = "./Univariate_ts"
@@ -305,25 +305,28 @@ datasets = make_datasets(
 # all_datasets
 # fast_datasets
 
-# TODO verschiedene Hyperparameter kombinationen systematisch automatisiert prüfen lassen
-# def _unique_parameters(max_window, win_inc):
-#     possible_parameters = [
-#         [win_size, word_len, normalise]
-#         for n, normalise in enumerate(self._norm_options)
-#         for win_size in range(self.min_window, max_window + 1, win_inc)
-#         for g, word_len in enumerate(self._word_lengths)
-#     ]
-
-#     return possible_parameters
-
 
 # TimeSeriesForest_Dilation Hyperparameter:
-tsf_n_intervals_prop = 1.0 # Anzahl an Intervallen (wahrscheinlich sollte man diese nicht reduzieren!!!)
-tsf_interval_length_prop = 1.0 # dient dazu die window size zu reduzieren (wahrscheinlich effektiver)
-# tsf_interval_lengths = ... TODO Idee wäre hier alternativ wie bei CBOSS random aus einem übergebenen interval_lengths array eine Länge auszuwählen
-# TODO relevant? tsf_num_of_random_dilations = 200
+# tsf_n_intervals_prop = 1.0 # Anzahl an Intervallen (hier vergrößern damit mehr features entstehen)
+# tsf_interval_length_prop = 1.0 # dient dazu die window size zu reduzieren (also verkleinern)
+# tsf_num_of_random_dilations = 1 #WIRD GERADE NICHT GENUTZT
+# tsf_n_estimators=200
 
-tsf_results_cols = [        
+
+def generate_parameters():
+    parameters = [
+        [tsf_n_intervals_prop, tsf_interval_length_prop, tsf_num_of_random_dilations, tsf_n_estimators]
+        for a, tsf_n_intervals_prop in enumerate([0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.8, 2.0, 5.0, 10.0])
+        for b, tsf_interval_length_prop in enumerate([1.1, 1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4])
+        for c, tsf_num_of_random_dilations in enumerate([1])
+        for d, tsf_n_estimators in enumerate([100, 200, 300, 400])
+    ]
+    return parameters
+
+
+
+def generate_clfs(possible_parameters):
+    tsf_results_cols = [        
         "Classifier",
         "Dataset",
         "Accuracy",
@@ -332,24 +335,32 @@ tsf_results_cols = [
         "total_feature_count",
         
         "n_intervals_prop",
-        "interval_length_prop",]
+        "interval_length_prop",
+        "num_of_random_dilations",
+        "n_estimators",]
+    clfs = [[TimeSeriesForestClassifier(), "TSF", tsf_results_cols, ["1", "1", "1", "200"]]]
+    for params in possible_parameters:
 
-#[ClassifierFunction, ClassifierName, result_col_names, hyperparameterForResultsCSV]
-tsf_params = {
-    "n_intervals_prop": tsf_n_intervals_prop,
-    "interval_length_prop": tsf_interval_length_prop,}
-clfs = [
-    [TimeSeriesForestClassifier(), "TSF", tsf_results_cols, ["1", "1"]],
-    [TimeSeriesForestClassifierDilation(**tsf_params), "TSF_Dilation",  tsf_results_cols, list(tsf_params.values())]
-]
+        tsf_params = {
+            "n_intervals_prop": params[0],
+            "interval_length_prop": params[1],
+            "num_of_random_dilations": params[2],
+            "n_estimators": params[3]}
+
+        clfs.append([TimeSeriesForestClassifierDilation(**tsf_params), "TSF_Dilation", tsf_results_cols, list(tsf_params.values())])
+
+    return clfs
 
 
 # ### Benchmark ###
 
-# In[15]:
+# In[13]:
 
 
 import benchmark
 
-benchmark.run(clfs=clfs,datasets=datasets)
+parameters = generate_parameters()
+clfs = generate_clfs(parameters)
+
+benchmark.run(clfs=clfs,datasets=datasets,benchmark_name="bulk_TSF")
 

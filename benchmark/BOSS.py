@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[6]:
+# In[4]:
 
 
 from sktime.classification.dictionary_based import ContractableBOSS
@@ -12,7 +12,7 @@ from sktime.benchmarking.data import UEADataset, make_datasets
 
 # ### Settings ###
 
-# In[7]:
+# In[5]:
 
 
 fast_datasets = [
@@ -158,7 +158,7 @@ fast_datasets = [
 ]
 
 
-# In[8]:
+# In[6]:
 
 
 all_datasets = [
@@ -293,12 +293,12 @@ all_datasets = [
 ]
 
 
-# In[9]:
+# In[14]:
 
 
 DATA_PATH = "./Univariate_ts"
 datasets = make_datasets(
-    path=DATA_PATH, dataset_cls=UEADataset, names=all_datasets
+    path=DATA_PATH, dataset_cls=UEADataset, names=fast_datasets
 )
 # ["ArrowHead", "Car", "CBF", "Coffee"]
 # ["ArrowHead"]
@@ -306,26 +306,32 @@ datasets = make_datasets(
 # all_datasets
 
 # CBOSS_Dilation Hyperparameter:
-cboss_num_of_random_dilations = 50
-cboss_win_lengths = [38 ,32, 28, 24, 20, 16, 12, 8] #  picked randomly
-cboss_norm_options = [True, False]
-cboss_word_lengths = [8] 
-cboss_alphabet_size = 2
-cboss_feature_selection = "none" # {"chi2", "none", "random"} Sets the feature selections strategy to be used. Chi2 reduces the number of words significantly and is thus much faster (preferred). Random also reduces the number significantly. None applies not feature selection and yields large bag of words, e.g. much memory may be needed.
-cboss_max_feature_count = 256 # default=256, If feature_selection=random is chosen, this parameter defines the number of randomly chosen unique words used. 
+# cboss_num_of_random_dilations = 100
+# cboss_win_lengths = [32, 28, 24, 20, 16] #  picked randomly
+# cboss_norm_options = [True, False]
+# cboss_word_lengths = [8] 
+# cboss_alphabet_size = 2
+# cboss_feature_selection = "none" # {"chi2", "none", "random"} Sets the feature selections strategy to be used. Chi2 reduces the number of words significantly and is thus much faster (preferred). Random also reduces the number significantly. None applies not feature selection and yields large bag of words, e.g. much memory may be needed.
+# cboss_max_feature_count = 256 # default=256, If feature_selection=random is chosen, this parameter defines the number of randomly chosen unique words used. 
 
-# TODO verschiedene Hyperparameterkombinationen erzeugen lassen (wenn möglich)
-# def _unique_parameters(max_window, win_inc):
-#     possible_parameters = [
-#         [win_size, word_len, normalise]
-#         for n, normalise in enumerate(self._norm_options)
-#         for win_size in range(self.min_window, max_window + 1, win_inc)
-#         for g, word_len in enumerate(self._word_lengths)
-#     ]
 
-#     return possible_parameters
+def generate_parameters():
+    parameters = [
+        [cboss_num_of_random_dilations, cboss_win_lengths, cboss_norm_options, cboss_word_lengths, cboss_alphabet_size, cboss_feature_selection, cboss_max_feature_count]
+        for cboss_num_of_random_dilations in range(2, 101, 10)
+        for w, cboss_win_lengths in enumerate([[28, 24, 20, 16, 12]]) # TODO hier eventuell noch bessere werte finden
+        for n, cboss_norm_options in enumerate([[True,False]])
+        for g, cboss_word_lengths in enumerate([[4,6], [6], [6,8], [8]])
+        for k, cboss_alphabet_size in enumerate([2, 4, 6])
+        for i, cboss_feature_selection in enumerate(["none", "chi2", "random"])
+        for p, cboss_max_feature_count in enumerate([256, 512])
+    ]
+    return parameters
 
-cboss_results_cols = [        
+
+
+def generate_clfs(possible_parameters):
+    cboss_results_cols = [        
         "Classifier",
         "Dataset",
         "Accuracy",
@@ -340,29 +346,32 @@ cboss_results_cols = [
         "alphabet_size",
         "feature_selection",
         "max_feature_count"]
+    clfs = [[ContractableBOSS(), "CBOSS", cboss_results_cols, ["NULL", "NULL", "[True, False]", "[16, 14, 12, 10, 8]", "4", "none", "256"]]]
+    for params in possible_parameters:
 
+        cboss_params = {
+            "num_of_random_dilations": params[0], 
+            "win_lengths": params[1], 
+            "norm_options": params[2], 
+            "word_lengths": params[3],
+            "alphabet_size": params[4],
+            "feature_selection": params[5],
+            "max_feature_count": params[6],}
 
-#[ClassifierFunction, ClassifierName, result_col_names, hyperparameterForResultsCSV]
-cboss_params = {
-    "num_of_random_dilations": cboss_num_of_random_dilations, 
-    "win_lengths": cboss_win_lengths, 
-    "norm_options": cboss_norm_options, 
-    "word_lengths": cboss_word_lengths,
-    "alphabet_size": cboss_alphabet_size,
-    "feature_selection": cboss_feature_selection,
-    "max_feature_count": cboss_max_feature_count,}
-clfs = [
-    #[ContractableBOSS(), "CBOSS", cboss_results_cols, ["NULL", "NULL", "[True, False]", "[16, 14, 12, 10, 8]", "4", "none", "256"]],
-    [ContractableBOSSDilation(**cboss_params), "CBOSS_Dilation", cboss_results_cols, list(cboss_params.values())],
-]
+        clfs.append([ContractableBOSSDilation(**cboss_params), "CBOSS_Dilation", cboss_results_cols, list(cboss_params.values())])
+
+    return clfs
 
 
 # ### Benchmark ###
 
-# In[10]:
+# In[15]:
 
 
 import benchmark
 
-benchmark.run(clfs=clfs,datasets=datasets)
+parameters = generate_parameters()
+clfs = generate_clfs(parameters)
+
+benchmark.run(clfs=clfs,datasets=datasets, benchmark_name="bulk_BOSS")
 

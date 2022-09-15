@@ -13,10 +13,10 @@ from sklearn.preprocessing import LabelEncoder
 
 from scipy.stats import zscore
 
-def run(clfs, datasets):
-    for clf in clfs:
+def run(clfs, datasets, benchmark_name):
+    for i, clf in enumerate(clfs, start=1):
         results = pd.concat(Parallel(n_jobs=-1)(delayed(benchmark_clf)(clf, dataset)for dataset in datasets), ignore_index=True)
-        # benchmark_clf(dataset=datasets[0], clf=clf) # for debugging with one dataset
+        #benchmark_clf(dataset=datasets[0], clf=clf) # for debugging with one dataset
         results_from_clf = results.loc[results["Classifier"] == clf[1]]
         av_acc = results_from_clf["Accuracy"].mean()
         av_fit_time = results_from_clf["Fit-Time"].mean()
@@ -30,12 +30,13 @@ def run(clfs, datasets):
 
         results = pd.concat([results, av_results], ignore_index=True)
 
-        if not os.path.isfile("./results/" + clf[1] + "_results.csv"):
-            results.to_csv("./results/" + clf[1] + "_results.csv", header=True)
+        if not os.path.isfile("./results/" + benchmark_name + ".csv"):
+            av_results.to_csv("./results/" + benchmark_name + ".csv", header=True)
         else:
-            results.to_csv("./results/" + clf[1] + "_results.csv", mode='a', header=False)
-        print(f"clf {clf[1]} done")
+            av_results.to_csv("./results/" + benchmark_name + ".csv", mode='a', header=False)
+        #print(f"clf {clf[1]} done")
         print(av_results[['Classifier', 'Accuracy', 'Fit-Time', 'Predict-Time', 'total_feature_count']])
+        print(f"clf {i}/{len(clfs)} done")
         results = results[0:0]
         av_results = av_results[0:0]
 
@@ -71,7 +72,7 @@ def benchmark_clf(clf, dataset):
             feature_count = "NULL"
         result.loc[len(result)] = [clf[1], dataset.name, acc, fit_time, predict_time, feature_count] + clf[3]
         
-        print(f"clf {clf[1]} dataset {dataset.name} done")
+        #print(f"clf {clf[1]} dataset {dataset.name} done")
     except Exception as e:
         print(f"ERROR {e} for dataset {dataset.name} clf {clf[1]}")
     return result
