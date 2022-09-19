@@ -318,8 +318,8 @@ def generate_parameters():
         [tsf_n_intervals_prop, tsf_interval_length_prop, tsf_num_of_random_dilations, tsf_n_estimators]
         for a, tsf_n_intervals_prop in enumerate([0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.8, 2.0, 5.0, 10.0])
         for b, tsf_interval_length_prop in enumerate([1.1, 1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4])
-        for c, tsf_num_of_random_dilations in enumerate([1])
-        for d, tsf_n_estimators in enumerate([100, 200, 300, 400])
+        for c, tsf_num_of_random_dilations in enumerate([1, 20, 50, 100])
+        for d, tsf_n_estimators in enumerate([100, 200, 300])
     ]
     return parameters
 
@@ -362,5 +362,5 @@ import benchmark
 parameters = generate_parameters()
 clfs = generate_clfs(parameters)
 
-benchmark.run(clfs=clfs,datasets=datasets,benchmark_name="bulk_TSF")
+benchmark.run(clfs=clfs,datasets=datasets,benchmark_name="bulk_TSF2")
 

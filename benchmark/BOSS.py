@@ -373,5 +373,5 @@ import benchmark
 parameters = generate_parameters()
 clfs = generate_clfs(parameters)
 
-benchmark.run(clfs=clfs,datasets=datasets, benchmark_name="bulk_BOSS")
+benchmark.run(clfs=clfs,datasets=datasets, benchmark_name="bulk_BOSS2")
 
