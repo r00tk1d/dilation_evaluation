@@ -15,8 +15,8 @@ from scipy.stats import zscore
 
 def run(clfs, datasets, benchmark_name):
     for i, clf in enumerate(clfs, start=1):
-        #results = pd.concat(Parallel(n_jobs=-1)(delayed(benchmark_clf)(clf, dataset)for dataset in datasets), ignore_index=True)
-        benchmark_clf(dataset=datasets[0], clf=clf) # for debugging with one dataset
+        results = pd.concat(Parallel(n_jobs=-1)(delayed(benchmark_clf)(clf, dataset)for dataset in datasets), ignore_index=True)
+        #benchmark_clf(dataset=datasets[0], clf=clf) # for debugging with one dataset
         results_from_clf = results.loc[results["Classifier"] == clf[1]]
         av_acc = results_from_clf["Accuracy"].mean()
         av_fit_time = results_from_clf["Fit-Time"].mean()
