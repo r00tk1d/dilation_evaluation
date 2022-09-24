@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[11]:
 
 
-from sktime.classification.interval_based import TimeSeriesForestClassifier
-from sktime.classification.interval_based import TimeSeriesForestClassifierDilation
+from sktime.classification.shapelet_based import ShapeletTransformClassifier
+from sktime.classification.shapelet_based import ShapeletTransformClassifierDilation
 
 from sktime.benchmarking.data import UEADataset, make_datasets
 
 
 # ### Settings ###
 
-# In[2]:
+# In[12]:
 
 
 fast_datasets = [
@@ -158,7 +158,7 @@ fast_datasets = [
 ]
 
 
-# In[3]:
+# In[13]:
 
 
 all_datasets = [
@@ -293,7 +293,7 @@ all_datasets = [
 ]
 
 
-# In[4]:
+# In[14]:
 
 
 DATA_PATH = "./Univariate_ts"
@@ -306,56 +306,64 @@ datasets = make_datasets(
 # fast_datasets
 
 
-# TimeSeriesForest_Dilation Hyperparameter:
-# tsf_n_intervals_prop = 1.0 # Anzahl an Intervallen (hier vergrößern damit mehr features entstehen)
-# tsf_interval_length_prop = 1.0 # dient dazu die window size zu reduzieren (also verkleinern)
-# tsf_num_of_random_dilations = 1 #WIRD GERADE NICHT GENUTZT
-# tsf_n_estimators=200
+# ShapeletTransformClassifierDilation Hyperparameter:
+# n_shapelet_samples : int, default=10000
+#     The number of candidate shapelets to be considered for the final transform.
+#     Filtered down to <= max_shapelets, keeping the shapelets with the most
+#     information gain.
+# max_shapelet_length : int or None, default=None
+#     Lower bound on candidate shapelet lengths for the transform.
+# max_shapelets : int or None, default=None
+#     Max number of shapelets to keep for the final transform. Each class value will
+#     have its own max, set to n_classes / max_shapelets. If None uses the min between
+#     10 * n_instances and 1000
+# TODO n_shapelet_samples vs max_shapelets (dafür in den code schauen)
 
 
-#REMINDER: feature_count = 3 * n_intervals * n_estimators * num_of_random_dilations
+# sktime doc: "Then, given a set of k shapelets, a time series can be transformed into k features by calculating the distance from the series to each shapelet."
+#REMINDER: feature_count = n_shapelet_samples OR max_shapelets ?? (each shapelet produces one feature for each time series. the distance)
 def generate_parameters():
     parameters = [
-        [tsf_n_intervals_prop, tsf_interval_length_prop, tsf_num_of_random_dilations, tsf_n_estimators]
-        for a, tsf_n_intervals_prop in enumerate([0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.8, 2.0, 5.0, 10.0])
-        for b, tsf_interval_length_prop in enumerate([1.0, 0.8, 0.6, 0.4, 0.2]) # # TODO 1.1 führt zu fehlern?
-        for c, tsf_num_of_random_dilations in enumerate([1, 20, 50, 100])
-        for d, tsf_n_estimators in enumerate([100, 200, 300])
+        [stc_n_shapelet_samples, stc_max_shapelet_length, stc_max_shapelets]
+        for a, stc_n_shapelet_samples in enumerate([10000, 15000, 20000, 25000, 30000])
+        for b, stc_max_shapelet_length in enumerate([None, 7, 9, 11])
+        for c, stc_max_shapelets in enumerate([None, 1000, 3000, 5000, 10000, 20000])
     ]
     return parameters
 
 
 
 def generate_clfs(possible_parameters):
-    tsf_results_cols = [        
+    stc_results_cols = [        
         "Classifier",
         "Dataset",
         "Accuracy",
         "Fit-Time",
         "Predict-Time",
         "total_feature_count",
-        
-        "n_intervals_prop",
-        "interval_length_prop",
-        "num_of_random_dilations",
-        "n_estimators",]
-    clfs = [[TimeSeriesForestClassifier(), "TSF", tsf_results_cols, ["1", "1", "1", "200"]]]
+
+        "n_shapelet_samples",
+        "max_shapelet_length",
+        "max_shapelets",
+        ]
+
+    clfs = [[ShapeletTransformClassifier(), "STC", stc_results_cols, ["10000", "None", "None"]]]
     for params in possible_parameters:
 
-        tsf_params = {
-            "n_intervals_prop": params[0],
-            "interval_length_prop": params[1],
-            "num_of_random_dilations": params[2],
-            "n_estimators": params[3]}
+        stc_params = {
+            "n_shapelet_samples": params[0], 
+            "max_shapelet_length": params[1], 
+            "max_shapelets": params[2], 
+        }
 
-        clfs.append([TimeSeriesForestClassifierDilation(**tsf_params), "TSF_Dilation", tsf_results_cols, list(tsf_params.values())])
+        clfs.append([ShapeletTransformClassifierDilation(**stc_params), "STC_Dilation", stc_results_cols, list(stc_params.values())])
 
     return clfs
 
 
 # ### Benchmark ###
 
-# In[5]:
+# In[15]:
 
 
 import benchmark
@@ -363,5 +371,5 @@ import benchmark
 parameters = generate_parameters()
 clfs = generate_clfs(parameters)
 
-benchmark.run(clfs=clfs,datasets=datasets,benchmark_name="bulk_TSF_fastdataset")
+benchmark.run(clfs=clfs,datasets=datasets,benchmark_name="bulk_STC_fastdataset")
 

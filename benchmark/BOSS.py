@@ -314,15 +314,15 @@ datasets = make_datasets(
 # cboss_feature_selection = "none" # {"chi2", "none", "random"} Sets the feature selections strategy to be used. Chi2 reduces the number of words significantly and is thus much faster (preferred). Random also reduces the number significantly. None applies not feature selection and yields large bag of words, e.g. much memory may be needed.
 # cboss_max_feature_count = 256 # default=256, If feature_selection=random is chosen, this parameter defines the number of randomly chosen unique words used. 
 
-
+# REMINDER: feature_count = num_of_random_dilations * _transformed_data.shape[1]
 def generate_parameters():
     parameters = [
         [cboss_num_of_random_dilations, cboss_win_lengths, cboss_norm_options, cboss_word_lengths, cboss_alphabet_size, cboss_feature_selection, cboss_max_feature_count]
-        for cboss_num_of_random_dilations in range(2, 101, 10)
+        for cboss_num_of_random_dilations in range(2, 18, 2)
         for w, cboss_win_lengths in enumerate([[28, 24, 20, 16, 12]]) # TODO hier eventuell noch bessere werte finden
         for n, cboss_norm_options in enumerate([[True,False]])
         for g, cboss_word_lengths in enumerate([[4,6], [6], [6,8], [8]])
-        for k, cboss_alphabet_size in enumerate([2, 4, 6])
+        for k, cboss_alphabet_size in enumerate([4, 6])
         for i, cboss_feature_selection in enumerate(["none", "chi2", "random"])
         for p, cboss_max_feature_count in enumerate([256, 512])
     ]
@@ -373,5 +373,5 @@ import benchmark
 parameters = generate_parameters()
 clfs = generate_clfs(parameters)
 
-benchmark.run(clfs=clfs,datasets=datasets, benchmark_name="bulk_BOSS2")
+benchmark.run(clfs=clfs,datasets=datasets, benchmark_name="bulk_BOSS_fastdataset2")
 
