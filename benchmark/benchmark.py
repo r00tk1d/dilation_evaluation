@@ -1,5 +1,3 @@
-import seaborn as sns
-import matplotlib.pyplot as plt
 import time
 import numpy as np
 import pandas as pd
@@ -47,7 +45,7 @@ def run(clfs, datasets, benchmark_name, save_data):
         results = results[0:0]
     if(save_data):
         save_results(all_results, all_results_av, benchmark_name)
-    show_boxplots(all_results_av)
+    return all_results, all_results_av
 
 
 def benchmark_clf(clf, dataset):
@@ -93,31 +91,6 @@ def save_results(all_results, all_results_av, benchmark_name):
     # else:
     #     results.to_csv("./results/" + benchmark_name + ".csv", mode='a', header=False)
     all_results_df = pd.concat(all_results)
-    all_results_df.to_csv("./results/" + benchmark_name + ".csv", header=True)
+    all_results_df.to_csv("./results/" + benchmark_name + "/" + benchmark_name + ".csv", header=True)
     all_results_av_df = pd.concat(all_results_av)
-    all_results_av_df.to_csv("./results/" + benchmark_name + "_av.csv", header=True)
-
-def show_boxplots(list_of_dfs):
-    acc_dict = {}
-    fit_dict = {}
-    predict_dict = {}
-
-    for i, result_df in enumerate(list_of_dfs):
-        acc_dict[i] = result_df['Accuracy']
-        fit_dict[i] = result_df['Fit-Time']
-        predict_dict[i] = result_df['Predict-Time']
-
-    acc_dfs = pd.DataFrame(acc_dict)
-    fit_dfs = pd.DataFrame(fit_dict)
-    predict_dfs = pd.DataFrame(predict_dict)
-
-    sns.set_style('white')
-    sns.despine()
-    sns.boxplot(data=acc_dfs).set_title('Accuracy')
-    plt.show()
-
-    sns.boxplot(data=fit_dfs).set_title('Fit-Time')
-    plt.show()
-
-    sns.boxplot(data=predict_dfs).set_title('Predict-Time')
-    plt.show()
+    all_results_av_df.to_csv("./results/" + benchmark_name + "/" + benchmark_name + "_av.csv", header=True)
