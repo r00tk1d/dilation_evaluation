@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[4]:
+# In[1]:
 
 
 from sktime.classification.dictionary_based import ContractableBOSS
@@ -9,10 +9,14 @@ from sktime.classification.dictionary_based import ContractableBOSSDilation
 
 from sktime.benchmarking.data import UEADataset, make_datasets
 
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+
 
 # ### Settings ###
 
-# In[5]:
+# In[2]:
 
 
 fast_datasets = [
@@ -158,7 +162,7 @@ fast_datasets = [
 ]
 
 
-# In[6]:
+# In[3]:
 
 
 all_datasets = [
@@ -293,7 +297,10 @@ all_datasets = [
 ]
 
 
-# In[14]:
+# In[9]:
+
+
+from typing import Dict, List
 
 
 DATA_PATH = "./Univariate_ts"
@@ -317,20 +324,20 @@ datasets = make_datasets(
 # REMINDER: feature_count = num_of_random_dilations * _transformed_data.shape[1]
 def generate_parameters():
     parameters = [
-        [cboss_num_of_random_dilations, cboss_win_lengths, cboss_norm_options, cboss_word_lengths, cboss_alphabet_size, cboss_feature_selection, cboss_max_feature_count]
-        for cboss_num_of_random_dilations in range(2, 18, 2)
-        for w, cboss_win_lengths in enumerate([[28, 24, 20, 16, 12]]) # TODO hier eventuell noch bessere werte finden
-        for n, cboss_norm_options in enumerate([[True,False]])
-        for g, cboss_word_lengths in enumerate([[4,6], [6], [6,8], [8]])
-        for k, cboss_alphabet_size in enumerate([4, 6])
-        for i, cboss_feature_selection in enumerate(["none", "chi2", "random"])
-        for p, cboss_max_feature_count in enumerate([256, 512])
+        [cboss_num_of_random_dilations_per_win_size, cboss_win_lengths, cboss_norm_options, cboss_word_lengths, cboss_alphabet_size, cboss_feature_selection, cboss_max_feature_count]
+        for cboss_num_of_random_dilations_per_win_size in range(1, 51, 4) # default: Parameter existiert nicht
+        for w, cboss_win_lengths in enumerate([[1]]) # default: Parameter existiert nicht
+        for n, cboss_norm_options in enumerate([[True,False]]) # default: [True, False]
+        for g, cboss_word_lengths in enumerate([[16, 14, 12, 10, 8]]) # default: [16, 14, 12, 10, 8]
+        for k, cboss_alphabet_size in enumerate([4]) # default: 4
+        for i, cboss_feature_selection in enumerate(["none"]) # default: "none"
+        for p, cboss_max_feature_count in enumerate([256]) # default: 256
     ]
     return parameters
 
 
 
-def generate_clfs(possible_parameters):
+def generate_clfs(list_of_parameters):
     cboss_results_cols = [        
         "Classifier",
         "Dataset",
@@ -347,7 +354,7 @@ def generate_clfs(possible_parameters):
         "feature_selection",
         "max_feature_count"]
     clfs = [[ContractableBOSS(), "CBOSS", cboss_results_cols, ["NULL", "NULL", "[True, False]", "[16, 14, 12, 10, 8]", "4", "none", "256"]]]
-    for params in possible_parameters:
+    for params in list_of_parameters:
 
         cboss_params = {
             "num_of_random_dilations": params[0], 
@@ -362,16 +369,64 @@ def generate_clfs(possible_parameters):
 
     return clfs
 
+def show_boxplots(dfs: List[pd.DataFrame], benchmark_name: str, save_boxplots: bool):
+    acc_dict = {}
+    fit_dict = {}
+    predict_dict = {}
+
+    for i, result_df in enumerate(dfs):
+        boxplot_name = result_df['num_of_random_dilations'][0]
+        acc_dict[boxplot_name] = result_df['Accuracy']
+        fit_dict[boxplot_name] = result_df['Fit-Time']
+        predict_dict[boxplot_name] = result_df['Predict-Time']
+
+    acc_dfs = pd.DataFrame(acc_dict)
+    fit_dfs = pd.DataFrame(fit_dict)
+    predict_dfs = pd.DataFrame(predict_dict)
+
+    sns.set_style('white')
+    sns.despine()
+    sns.boxplot(data=acc_dfs).set_title('Accuracy')
+    plt.xlabel("num_of_random_dilations_per_window")
+    plt.ylabel("accuracy in percent")
+    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_acc.png")
+    plt.show()
+
+    sns.boxplot(data=fit_dfs).set_title('Fit-Time')
+    plt.xlabel("num_of_random_dilations_per_window")
+    plt.ylabel("fit-time in seconds")
+    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_fit.png")
+    plt.show()
+
+    sns.boxplot(data=predict_dfs).set_title('Predict-Time')
+    plt.xlabel("num_of_random_dilations_per_window")
+    plt.ylabel("predict-time in seconds")
+    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_predict.png")
+    plt.show()
+
 
 # ### Benchmark ###
 
-# In[15]:
+# In[5]:
 
 
 import benchmark
+import os
 
+benchmark_name= "CBOSS_DILATION_ONLY"
+save_data = True
+save_boxplots = True
+
+os.mkdir("./results/" + benchmark_name)
 parameters = generate_parameters()
 clfs = generate_clfs(parameters)
 
-benchmark.run(clfs=clfs,datasets=datasets, benchmark_name="bulk_BOSS_fastdataset2")
+all_results, all_results_av = benchmark.run(clfs=clfs,datasets=datasets, benchmark_name=benchmark_name, save_data=save_data)
+
+
+# In[10]:
+
+
+show_boxplots(all_results, benchmark_name, save_boxplots=save_boxplots)
+# TODO für av_results: show_boxplots(all_results_av, benchmark_name=benchmark_name+"_av", save_boxplots=save_boxplots)
 

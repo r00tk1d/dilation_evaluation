@@ -18,11 +18,10 @@ def run(clfs, datasets, benchmark_name, save_data):
     for i, clf in enumerate(clfs, start=1):
         results = pd.concat(Parallel(n_jobs=-1)(delayed(benchmark_clf)(clf, dataset)for dataset in datasets), ignore_index=True)
         #benchmark_clf(dataset=datasets[0], clf=clf) # for debugging with one dataset
-        results_from_clf = results.loc[results["Classifier"] == clf[1]]
+        results_from_clf = results.loc[results["Classifier"] == clf[1]] # TODO wahrscheinlich nicht mehr nötig
         av_acc = results_from_clf["Accuracy"].mean()
         av_fit_time = results_from_clf["Fit-Time"].mean()
         av_pred_time = results_from_clf["Predict-Time"].mean()
-        # TODO num_of_datasets = len(results_from_clf.index)
         try:
             av_feature_count = results_from_clf["total_feature_count"].mean()
         except:
@@ -32,12 +31,6 @@ def run(clfs, datasets, benchmark_name, save_data):
 
         all_results.append(results)
         all_results_av.append(av_results)
-        # results = pd.concat([results, av_results], ignore_index=True)
-
-        # if not os.path.isfile("./results/" + benchmark_name + ".csv"):
-        #     results.to_csv("./results/" + benchmark_name + ".csv", header=True)
-        # else:
-        #     results.to_csv("./results/" + benchmark_name + ".csv", mode='a', header=False)
 
         print(av_results[['Classifier', 'Accuracy', 'Fit-Time', 'Predict-Time', 'total_feature_count']])
         print(f"clf {i}/{len(clfs)} done")
@@ -83,6 +76,7 @@ def benchmark_clf(clf, dataset):
         #print(f"clf {clf[1]} dataset {dataset.name} done")
     except Exception as e:
         print(f"ERROR {e} for dataset {dataset.name} clf {clf[1]}")
+        #TODO save in log txt
     return result
 
 def save_results(all_results, all_results_av, benchmark_name):
