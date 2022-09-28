@@ -14,31 +14,31 @@ from scipy.stats import zscore
 
 def run(clfs, datasets, benchmark_name, save_data):
     all_results = []
-    all_results_av = []
+    all_results_mean = []
     for i, clf in enumerate(clfs, start=1):
         results = pd.concat(Parallel(n_jobs=-1)(delayed(benchmark_clf)(clf, dataset)for dataset in datasets), ignore_index=True)
         #benchmark_clf(dataset=datasets[0], clf=clf) # for debugging with one dataset
         results_from_clf = results.loc[results["Classifier"] == clf[1]] # TODO wahrscheinlich nicht mehr nötig
-        av_acc = results_from_clf["Accuracy"].mean()
-        av_fit_time = results_from_clf["Fit-Time"].mean()
-        av_pred_time = results_from_clf["Predict-Time"].mean()
+        mean_acc = results_from_clf["Accuracy"].mean()
+        mean_fit_time = results_from_clf["Fit-Time"].mean()
+        mean_pred_time = results_from_clf["Predict-Time"].mean()
         try:
-            av_feature_count = results_from_clf["total_feature_count"].mean()
+            mean_feature_count = results_from_clf["total_feature_count"].mean()
         except:
-            av_feature_count = "NULL"
-        av_results = pd.DataFrame(columns=clf[2])
-        av_results.loc[len(av_results)] = [clf[1], "ALL_AVERAGE", av_acc, av_fit_time, av_pred_time, av_feature_count] + clf[3]
+            mean_feature_count = "NULL"
+        results_mean = pd.DataFrame(columns=clf[2])
+        results_mean.loc[len(results_mean)] = [clf[1], "ALL_AVERAGE", mean_acc, mean_fit_time, mean_pred_time, mean_feature_count] + clf[3]
 
         all_results.append(results)
-        all_results_av.append(av_results)
+        all_results_mean.append(results_mean)
 
-        print(av_results[['Classifier', 'Accuracy', 'Fit-Time', 'Predict-Time', 'total_feature_count']])
+        print(results_mean[['Classifier', 'Accuracy', 'Fit-Time', 'Predict-Time', 'total_feature_count']])
         print(f"clf {i}/{len(clfs)} done")
-        av_results = av_results[0:0]
+        results_mean = results_mean[0:0]
         results = results[0:0]
     if(save_data):
-        save_results(all_results, all_results_av, benchmark_name)
-    return all_results, all_results_av
+        save_results(all_results, all_results_mean, benchmark_name)
+    return all_results, all_results_mean
 
 
 def benchmark_clf(clf, dataset):

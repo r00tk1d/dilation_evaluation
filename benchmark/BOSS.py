@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[8]:
 
 
 from sktime.classification.dictionary_based import ContractableBOSS
@@ -16,7 +16,7 @@ import seaborn as sns
 
 # ### Settings ###
 
-# In[2]:
+# In[9]:
 
 
 fast_datasets = [
@@ -162,7 +162,7 @@ fast_datasets = [
 ]
 
 
-# In[3]:
+# In[10]:
 
 
 all_datasets = [
@@ -297,7 +297,7 @@ all_datasets = [
 ]
 
 
-# In[9]:
+# In[11]:
 
 
 from typing import Dict, List
@@ -325,7 +325,7 @@ datasets = make_datasets(
 def generate_parameters():
     parameters = [
         [cboss_num_of_random_dilations_per_win_size, cboss_win_lengths, cboss_norm_options, cboss_word_lengths, cboss_alphabet_size, cboss_feature_selection, cboss_max_feature_count]
-        for cboss_num_of_random_dilations_per_win_size in range(1, 51, 4) # default: Parameter existiert nicht
+        for cboss_num_of_random_dilations_per_win_size in range(1, 6, 4) # default: Parameter existiert nicht
         for w, cboss_win_lengths in enumerate([[1]]) # default: Parameter existiert nicht
         for n, cboss_norm_options in enumerate([[True,False]]) # default: [True, False]
         for g, cboss_word_lengths in enumerate([[16, 14, 12, 10, 8]]) # default: [16, 14, 12, 10, 8]
@@ -353,10 +353,20 @@ def generate_clfs(list_of_parameters):
         "alphabet_size",
         "feature_selection",
         "max_feature_count"]
+
+    # cboss_params = {
+    #     "num_of_random_dilations": params[0], 
+    #     "win_lengths": params[1], 
+    #     "norm_options": params[2], 
+    #     "word_lengths": params[3],
+    #     "alphabet_size": params[4],
+    #     "feature_selection": params[5],
+    #     "max_feature_count": params[6],}
+    
     clfs = [[ContractableBOSS(), "CBOSS", cboss_results_cols, ["NULL", "NULL", "[True, False]", "[16, 14, 12, 10, 8]", "4", "none", "256"]]]
     for params in list_of_parameters:
 
-        cboss_params = {
+        cboss_dilation_params = {
             "num_of_random_dilations": params[0], 
             "win_lengths": params[1], 
             "norm_options": params[2], 
@@ -365,11 +375,46 @@ def generate_clfs(list_of_parameters):
             "feature_selection": params[5],
             "max_feature_count": params[6],}
 
-        clfs.append([ContractableBOSSDilation(**cboss_params), "CBOSS_Dilation", cboss_results_cols, list(cboss_params.values())])
+        clfs.append([ContractableBOSSDilation(**cboss_dilation_params), "CBOSS_Dilation", cboss_results_cols, list(cboss_dilation_params.values())])
 
     return clfs
 
 def show_boxplots(dfs: List[pd.DataFrame], benchmark_name: str, save_boxplots: bool):
+    acc_dict = {}
+    # fit_dict = {}
+    # predict_dict = {}
+
+    for i, result_df in enumerate(dfs):
+        boxplot_name = result_df['num_of_random_dilations'][0]
+        acc_dict[boxplot_name] = result_df['Accuracy']
+        # fit_dict[boxplot_name] = result_df['Fit-Time']
+        # predict_dict[boxplot_name] = result_df['Predict-Time']
+
+    acc_dfs = pd.DataFrame(acc_dict)
+    # fit_dfs = pd.DataFrame(fit_dict)
+    # predict_dfs = pd.DataFrame(predict_dict)
+
+    sns.set_style('white')
+    sns.despine()
+    sns.boxplot(data=acc_dfs).set_title('Accuracy')
+    plt.xlabel("num_of_random_dilations_per_window")
+    plt.ylabel("accuracy in percent")
+    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_acc.png")
+    plt.show()
+
+    # sns.boxplot(data=fit_dfs).set_title('Fit-Time')
+    # plt.xlabel("num_of_random_dilations_per_window")
+    # plt.ylabel("fit-time in seconds")
+    # if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_fit.png")
+    # plt.show()
+
+    # sns.boxplot(data=predict_dfs).set_title('Predict-Time')
+    # plt.xlabel("num_of_random_dilations_per_window")
+    # plt.ylabel("predict-time in seconds")
+    # if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_predict.png")
+    # plt.show()
+
+def show_barcharts(dfs: List[pd.DataFrame], benchmark_name: str, save_barcharts: bool):
     acc_dict = {}
     fit_dict = {}
     predict_dict = {}
@@ -386,36 +431,36 @@ def show_boxplots(dfs: List[pd.DataFrame], benchmark_name: str, save_boxplots: b
 
     sns.set_style('white')
     sns.despine()
-    sns.boxplot(data=acc_dfs).set_title('Accuracy')
+    sns.barplot(data=acc_dfs).set_title('Mean Accuracy')
     plt.xlabel("num_of_random_dilations_per_window")
-    plt.ylabel("accuracy in percent")
-    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_acc.png")
+    plt.ylabel("mean accuracy in percent")
+    if(save_barcharts): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_av_acc.png")
     plt.show()
 
-    sns.boxplot(data=fit_dfs).set_title('Fit-Time')
+    sns.barplot(data=fit_dfs).set_title('Fit-Time')
     plt.xlabel("num_of_random_dilations_per_window")
     plt.ylabel("fit-time in seconds")
-    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_fit.png")
+    if(save_barcharts): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_av_fit.png")
     plt.show()
 
-    sns.boxplot(data=predict_dfs).set_title('Predict-Time')
+    sns.barplot(data=predict_dfs).set_title('Predict-Time')
     plt.xlabel("num_of_random_dilations_per_window")
     plt.ylabel("predict-time in seconds")
-    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_predict.png")
+    if(save_barcharts): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_av_predict.png")
     plt.show()
 
 
 # ### Benchmark ###
 
-# In[5]:
+# In[13]:
 
 
 import benchmark
 import os
 
-benchmark_name= "CBOSS_DILATION_ONLY"
+benchmark_name= "testeein"
 save_data = True
-save_boxplots = True
+save_plots = True
 
 os.mkdir("./results/" + benchmark_name)
 parameters = generate_parameters()
@@ -424,9 +469,9 @@ clfs = generate_clfs(parameters)
 all_results, all_results_av = benchmark.run(clfs=clfs,datasets=datasets, benchmark_name=benchmark_name, save_data=save_data)
 
 
-# In[10]:
+# In[ ]:
 
 
-show_boxplots(all_results, benchmark_name, save_boxplots=save_boxplots)
-# TODO für av_results: show_boxplots(all_results_av, benchmark_name=benchmark_name+"_av", save_boxplots=save_boxplots)
+show_boxplots(all_results, benchmark_name, save_boxplots=save_plots)
+show_barcharts(all_results_av, benchmark_name=benchmark_name, save_barcharts=save_plots)
 

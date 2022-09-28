@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[7]:
 
 
 from sktime.classification.interval_based import TimeSeriesForestClassifier
@@ -12,7 +12,7 @@ from sktime.benchmarking.data import UEADataset, make_datasets
 
 # ### Settings ###
 
-# In[2]:
+# In[8]:
 
 
 fast_datasets = [
@@ -158,7 +158,7 @@ fast_datasets = [
 ]
 
 
-# In[3]:
+# In[9]:
 
 
 all_datasets = [
@@ -293,7 +293,7 @@ all_datasets = [
 ]
 
 
-# In[4]:
+# In[10]:
 
 
 DATA_PATH = "./Univariate_ts"
@@ -317,10 +317,10 @@ datasets = make_datasets(
 def generate_parameters():
     parameters = [
         [tsf_n_intervals_prop, tsf_interval_length_prop, tsf_num_of_random_dilations, tsf_n_estimators]
-        for a, tsf_n_intervals_prop in enumerate([0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.8, 2.0, 5.0, 10.0])
-        for b, tsf_interval_length_prop in enumerate([1.0, 0.8, 0.6, 0.4, 0.2]) # # TODO 1.1 führt zu fehlern?
-        for c, tsf_num_of_random_dilations in enumerate([1, 20, 50, 100])
-        for d, tsf_n_estimators in enumerate([100, 200, 300])
+        for a, tsf_n_intervals_prop in enumerate([0.5]) # default: Parameter existiert nicht
+        for b, tsf_interval_length_prop in enumerate([1.0])  # default: Parameter existiert nicht
+        for tsf_num_of_random_dilations in range(1, 50, 4)  # default: Parameter existiert nicht
+        for d, tsf_n_estimators in enumerate([200])  # default: 200
     ]
     return parameters
 
@@ -339,7 +339,7 @@ def generate_clfs(possible_parameters):
         "interval_length_prop",
         "num_of_random_dilations",
         "n_estimators",]
-    clfs = [[TimeSeriesForestClassifier(), "TSF", tsf_results_cols, ["1", "1", "1", "200"]]]
+    clfs = [[TimeSeriesForestClassifier(), "TSF", tsf_results_cols, ["1", "1", "None", "200"]]]
     for params in possible_parameters:
 
         tsf_params = {
@@ -355,13 +355,29 @@ def generate_clfs(possible_parameters):
 
 # ### Benchmark ###
 
-# In[5]:
+# In[11]:
 
 
 import benchmark
+import os
 
+benchmark_name = "TSF_DILATION_N_INTERVALS_0_5"
+save_data = True
+save_plots = True
+
+os.mkdir("./results/" + benchmark_name)
 parameters = generate_parameters()
 clfs = generate_clfs(parameters)
 
-benchmark.run(clfs=clfs,datasets=datasets,benchmark_name="bulk_TSF_fastdataset")
+all_results, all_results_mean = benchmark.run(clfs=clfs,datasets=datasets, benchmark_name=benchmark_name, save_data=save_data)
+
+
+# ### Visualize Results ###
+
+# In[12]:
+
+
+import visualize
+visualize.boxplots(all_results, benchmark_name=benchmark_name, save_boxplots=save_plots)
+visualize.barplots(all_results_mean, benchmark_name=benchmark_name, save_barcharts=save_plots)
 
