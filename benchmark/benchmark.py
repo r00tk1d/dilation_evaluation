@@ -12,6 +12,10 @@ from sklearn.preprocessing import LabelEncoder
 
 from scipy.stats import zscore
 
+import logging
+logging.basicConfig(filename="./results/errors.log", level=logging.DEBUG, 
+                format='%(asctime)s %(levelname)s %(name)s %(message)s')
+
 def run(clfs, datasets, benchmark_name, save_data):
     all_results = []
     all_results_mean = []
@@ -43,6 +47,7 @@ def run(clfs, datasets, benchmark_name, save_data):
 
 def benchmark_clf(clf, dataset):
     result = pd.DataFrame(columns=clf[2])
+    logger=logging.getLogger(__name__)
     try:
         X_train, y_train = load_from_tsfile(dataset._train_path)
         X_test, y_test = load_from_tsfile(dataset._test_path)
@@ -76,7 +81,7 @@ def benchmark_clf(clf, dataset):
         #print(f"clf {clf[1]} dataset {dataset.name} done")
     except Exception as e:
         print(f"ERROR {e} for dataset {dataset.name} clf {clf[1]}")
-        #TODO save in log txt
+        logger.error(f"ERROR {e} for dataset {dataset.name} clf {clf[1]}")
     return result
 
 def save_results(all_results, all_results_av, benchmark_name):

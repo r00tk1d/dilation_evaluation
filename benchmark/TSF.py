@@ -298,7 +298,7 @@ all_datasets = [
 
 DATA_PATH = "./Univariate_ts"
 datasets = make_datasets(
-    path=DATA_PATH, dataset_cls=UEADataset, names=all_datasets
+    path=DATA_PATH, dataset_cls=UEADataset, names=fast_datasets
 )
 # ["ArrowHead", "Car", "CBF", "Coffee"]
 # ["ArrowHead"]
@@ -317,15 +317,13 @@ datasets = make_datasets(
 def generate_parameters():
     parameters = [
         [tsf_n_intervals_prop, tsf_interval_length_prop, tsf_interval_lengths, tsf_num_of_random_dilations, tsf_n_estimators]
-        for a, tsf_n_intervals_prop in enumerate([1.0]) # default: Parameter existiert nicht
-        for b, tsf_interval_length_prop in enumerate([1.0])  # default: Parameter existiert nicht
+        for a, tsf_n_intervals_prop in enumerate([1.0, 0.5, 0.2]) # default: Parameter existiert nicht (1.0)
+        for b, tsf_interval_length_prop in enumerate([1.0, 0.8, 0.6, 0.4, 0.2])  # default: Parameter existiert nicht (1.0)
         for c, tsf_interval_lengths in enumerate([[1]]) # default: Parameter existiert nicht
-        for tsf_num_of_random_dilations in range(1, 10, 2)  # default: Parameter existiert nicht
-        for d, tsf_n_estimators in enumerate([200])  # default: 200
+        for tsf_num_of_random_dilations in range(1, 50, 2)  # default: Parameter existiert nicht
+        for e, tsf_n_estimators in enumerate([20, 100, 200])  # default: 200
     ]
     return parameters
-
-
 
 def generate_clfs(possible_parameters):
     tsf_results_cols = [        
@@ -341,7 +339,7 @@ def generate_clfs(possible_parameters):
         "interval_lengths",
         "num_of_random_dilations",
         "n_estimators",]
-    clfs = [[TimeSeriesForestClassifier(), "TSF", tsf_results_cols, ["1", "1", "None", "None", "200"]]]
+    clfs = [[TimeSeriesForestClassifier(), "TSF", tsf_results_cols, ["1", "1", "None", "None", "200"]]] #
     for params in possible_parameters:
 
         tsf_params = {
@@ -364,7 +362,7 @@ def generate_clfs(possible_parameters):
 import benchmark
 import os
 
-benchmark_name = "TSF_DILATION_ONLY_ALL_DATASETS"
+benchmark_name = "TSF_BULK_WITH_INTERVAL_PROPS"
 save_data = True
 save_plots = True
 
