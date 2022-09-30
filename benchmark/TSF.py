@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[7]:
+# In[1]:
 
 
 from sktime.classification.interval_based import TimeSeriesForestClassifier
@@ -12,7 +12,7 @@ from sktime.benchmarking.data import UEADataset, make_datasets
 
 # ### Settings ###
 
-# In[8]:
+# In[2]:
 
 
 fast_datasets = [
@@ -158,7 +158,7 @@ fast_datasets = [
 ]
 
 
-# In[9]:
+# In[3]:
 
 
 all_datasets = [
@@ -293,12 +293,12 @@ all_datasets = [
 ]
 
 
-# In[10]:
+# In[4]:
 
 
 DATA_PATH = "./Univariate_ts"
 datasets = make_datasets(
-    path=DATA_PATH, dataset_cls=UEADataset, names=fast_datasets
+    path=DATA_PATH, dataset_cls=UEADataset, names=all_datasets
 )
 # ["ArrowHead", "Car", "CBF", "Coffee"]
 # ["ArrowHead"]
@@ -313,13 +313,14 @@ datasets = make_datasets(
 # tsf_n_estimators=200
 
 
-#REMINDER: feature_count = 3 * n_intervals * n_estimators * num_of_random_dilations
+#REMINDER: feature_count = 3 * n_intervals (=sqrt(series_length)) * n_estimators * num_of_random_dilations
 def generate_parameters():
     parameters = [
-        [tsf_n_intervals_prop, tsf_interval_length_prop, tsf_num_of_random_dilations, tsf_n_estimators]
-        for a, tsf_n_intervals_prop in enumerate([0.5]) # default: Parameter existiert nicht
+        [tsf_n_intervals_prop, tsf_interval_length_prop, tsf_interval_lengths, tsf_num_of_random_dilations, tsf_n_estimators]
+        for a, tsf_n_intervals_prop in enumerate([1.0]) # default: Parameter existiert nicht
         for b, tsf_interval_length_prop in enumerate([1.0])  # default: Parameter existiert nicht
-        for tsf_num_of_random_dilations in range(1, 50, 4)  # default: Parameter existiert nicht
+        for c, tsf_interval_lengths in enumerate([[1]]) # default: Parameter existiert nicht
+        for tsf_num_of_random_dilations in range(1, 10, 2)  # default: Parameter existiert nicht
         for d, tsf_n_estimators in enumerate([200])  # default: 200
     ]
     return parameters
@@ -337,16 +338,18 @@ def generate_clfs(possible_parameters):
         
         "n_intervals_prop",
         "interval_length_prop",
+        "interval_lengths",
         "num_of_random_dilations",
         "n_estimators",]
-    clfs = [[TimeSeriesForestClassifier(), "TSF", tsf_results_cols, ["1", "1", "None", "200"]]]
+    clfs = [[TimeSeriesForestClassifier(), "TSF", tsf_results_cols, ["1", "1", "None", "None", "200"]]]
     for params in possible_parameters:
 
         tsf_params = {
             "n_intervals_prop": params[0],
             "interval_length_prop": params[1],
-            "num_of_random_dilations": params[2],
-            "n_estimators": params[3]}
+            "interval_lengths": params[2],
+            "num_of_random_dilations": params[3],
+            "n_estimators": params[4]}
 
         clfs.append([TimeSeriesForestClassifierDilation(**tsf_params), "TSF_Dilation", tsf_results_cols, list(tsf_params.values())])
 
@@ -355,13 +358,13 @@ def generate_clfs(possible_parameters):
 
 # ### Benchmark ###
 
-# In[11]:
+# In[5]:
 
 
 import benchmark
 import os
 
-benchmark_name = "TSF_DILATION_N_INTERVALS_0_5"
+benchmark_name = "TSF_DILATION_ONLY_ALL_DATASETS"
 save_data = True
 save_plots = True
 
@@ -374,7 +377,7 @@ all_results, all_results_mean = benchmark.run(clfs=clfs,datasets=datasets, bench
 
 # ### Visualize Results ###
 
-# In[12]:
+# In[6]:
 
 
 import visualize
