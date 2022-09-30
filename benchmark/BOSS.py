@@ -325,13 +325,13 @@ datasets = make_datasets(
 def generate_parameters():
     parameters = [
         [cboss_num_of_random_dilations_per_win_size, cboss_win_lengths, cboss_norm_options, cboss_word_lengths, cboss_alphabet_size, cboss_feature_selection, cboss_max_feature_count]
-        for cboss_num_of_random_dilations_per_win_size in range(1, 6, 4) # default: Parameter existiert nicht
-        for w, cboss_win_lengths in enumerate([[1]]) # default: Parameter existiert nicht
+        for cboss_num_of_random_dilations_per_win_size in range(1, 50, 4) # default: Parameter existiert nicht
+        for w, cboss_win_lengths in enumerate([[100, 90, 80, 70, 60, 50, 40, 30, 20, 12], [20, 40, 60, 80, 100, 120], [12, 20, 30, 40, 50]]) # default: Parameter existiert nicht
         for n, cboss_norm_options in enumerate([[True,False]]) # default: [True, False]
-        for g, cboss_word_lengths in enumerate([[16, 14, 12, 10, 8]]) # default: [16, 14, 12, 10, 8]
-        for k, cboss_alphabet_size in enumerate([4]) # default: 4
-        for i, cboss_feature_selection in enumerate(["none"]) # default: "none"
-        for p, cboss_max_feature_count in enumerate([256]) # default: 256
+        for g, cboss_word_lengths in enumerate([[4,6], [6], [6,8], [8]]) # default: [16, 14, 12, 10, 8]
+        for k, cboss_alphabet_size in enumerate([2, 4]) # default: 4
+        for i, cboss_feature_selection in enumerate(["chi2"]) # default: "none"
+        for p, cboss_max_feature_count in enumerate([256]) # default: 256 | wird nur von feature_selection = random genutzt
     ]
     return parameters
 
@@ -458,7 +458,7 @@ def show_barcharts(dfs: List[pd.DataFrame], benchmark_name: str, save_barcharts:
 import benchmark
 import os
 
-benchmark_name= "testeein"
+benchmark_name= "CBOSS_DILATION_BULK_FASTDATASET"
 save_data = True
 save_plots = True
 
@@ -466,12 +466,15 @@ os.mkdir("./results/" + benchmark_name)
 parameters = generate_parameters()
 clfs = generate_clfs(parameters)
 
-all_results, all_results_av = benchmark.run(clfs=clfs,datasets=datasets, benchmark_name=benchmark_name, save_data=save_data)
+all_results, all_results_mean = benchmark.run(clfs=clfs,datasets=datasets, benchmark_name=benchmark_name, save_data=save_data)
 
+
+# ### Visualize Results ###
 
 # In[ ]:
 
 
-show_boxplots(all_results, benchmark_name, save_boxplots=save_plots)
-show_barcharts(all_results_av, benchmark_name=benchmark_name, save_barcharts=save_plots)
+# import visualize
+# visualize.boxplots(all_results, benchmark_name=benchmark_name, save_boxplots=save_plots)
+# visualize.barplots(all_results_mean, benchmark_name=benchmark_name, save_barcharts=save_plots)
 
