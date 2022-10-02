@@ -318,8 +318,8 @@ def generate_parameters():
     parameters = [
         [tsf_n_intervals_prop, tsf_interval_length_prop, tsf_interval_lengths, tsf_num_of_random_dilations, tsf_n_estimators]
         for a, tsf_n_intervals_prop in enumerate([1.0, 0.5, 0.2]) # default: Parameter existiert nicht (1.0)
-        for b, tsf_interval_length_prop in enumerate([1.0, 0.8, 0.6, 0.4, 0.2])  # default: Parameter existiert nicht (1.0)
-        for c, tsf_interval_lengths in enumerate([[1]]) # default: Parameter existiert nicht
+        for b, tsf_interval_length_prop in enumerate([1.0])  # default: Parameter existiert nicht (1.0)
+        for c, tsf_interval_lengths in enumerate([[3,9,19,29,39,49,59,69], [3,20,40,60,80,100,120], [3,30,60,90,120,150], [3,7,9,11]]) # default: Parameter existiert nicht
         for tsf_num_of_random_dilations in range(1, 50, 2)  # default: Parameter existiert nicht
         for e, tsf_n_estimators in enumerate([20, 100, 200])  # default: 200
     ]
@@ -339,7 +339,7 @@ def generate_clfs(possible_parameters):
         "interval_lengths",
         "num_of_random_dilations",
         "n_estimators",]
-    clfs = [[TimeSeriesForestClassifier(), "TSF", tsf_results_cols, ["1", "1", "None", "None", "200"]]] #
+    clfs = [[TimeSeriesForestClassifier(), "TSF", tsf_results_cols, [1.0, 1.0, [0], 0.0, 200]]] #
     for params in possible_parameters:
 
         tsf_params = {
@@ -362,7 +362,7 @@ def generate_clfs(possible_parameters):
 import benchmark
 import os
 
-benchmark_name = "TSF_BULK_WITH_INTERVAL_PROPS"
+benchmark_name = "TSF_BULK_WITH_INTERVAL_LENGTH_LISTS"
 save_data = True
 save_plots = True
 
