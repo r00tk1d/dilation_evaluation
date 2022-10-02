@@ -20,8 +20,8 @@ def run(clfs, datasets, benchmark_name, save_data):
     all_results = []
     all_results_mean = []
     for i, clf in enumerate(clfs, start=1):
-        results = pd.concat(Parallel(n_jobs=-1)(delayed(benchmark_clf)(clf, dataset)for dataset in datasets), ignore_index=True)
-        #benchmark_clf(dataset=datasets[0], clf=clf) # for debugging with one dataset
+        #results = pd.concat(Parallel(n_jobs=-1)(delayed(benchmark_clf)(clf, dataset)for dataset in datasets), ignore_index=True)
+        benchmark_clf(dataset=datasets[0], clf=clf) # for debugging with one dataset
         results_from_clf = results.loc[results["Classifier"] == clf[1]] # TODO wahrscheinlich nicht mehr nötig
         mean_acc = results_from_clf["Accuracy"].mean()
         mean_fit_time = results_from_clf["Fit-Time"].mean()

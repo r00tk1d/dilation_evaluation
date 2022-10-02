@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[11]:
+# In[16]:
 
 
 from sktime.classification.shapelet_based import ShapeletTransformClassifier
@@ -12,7 +12,7 @@ from sktime.benchmarking.data import UEADataset, make_datasets
 
 # ### Settings ###
 
-# In[12]:
+# In[17]:
 
 
 fast_datasets = [
@@ -158,7 +158,7 @@ fast_datasets = [
 ]
 
 
-# In[13]:
+# In[18]:
 
 
 all_datasets = [
@@ -293,7 +293,7 @@ all_datasets = [
 ]
 
 
-# In[14]:
+# In[19]:
 
 
 DATA_PATH = "./Univariate_ts"
@@ -307,27 +307,30 @@ datasets = make_datasets(
 
 
 # ShapeletTransformClassifierDilation Hyperparameter:
-# n_shapelet_samples : int, default=10000
+# n_shapelet_samples : int, default=10000               -> zweiter filter step
 #     The number of candidate shapelets to be considered for the final transform.
 #     Filtered down to <= max_shapelets, keeping the shapelets with the most
 #     information gain.
 # max_shapelet_length : int or None, default=None
 #     Lower bound on candidate shapelet lengths for the transform.
-# max_shapelets : int or None, default=None
+# max_shapelets : int or None, default=None              -> erster filter step
 #     Max number of shapelets to keep for the final transform. Each class value will
 #     have its own max, set to n_classes / max_shapelets. If None uses the min between
 #     10 * n_instances and 1000
-# TODO n_shapelet_samples vs max_shapelets (dafür in den code schauen)
+# TODO n_shapelet_samples vs max_shapelets
+
+
 
 
 # sktime doc: "Then, given a set of k shapelets, a time series can be transformed into k features by calculating the distance from the series to each shapelet."
-#REMINDER: feature_count = n_shapelet_samples OR max_shapelets ?? (each shapelet produces one feature for each time series. the distance)
+#REMINDER: feature_count = min(n_shapelet_samples, max_shapelets)  -> (each shapelet produces one feature for each time series. the distance)
 def generate_parameters():
     parameters = [
         [stc_n_shapelet_samples, stc_max_shapelet_length, stc_max_shapelets]
-        for a, stc_n_shapelet_samples in enumerate([10000, 15000, 20000, 25000, 30000])
-        for b, stc_max_shapelet_length in enumerate([None, 7, 9, 11])
-        for c, stc_max_shapelets in enumerate([None, 1000, 3000, 5000, 10000, 20000])
+        for a, stc_n_shapelet_samples in enumerate([10000, 15000, 20000, 25000, 30000, 35000])
+        for b, stc_max_shapelet_length in enumerate([None])
+        for c, stc_max_shapelets in enumerate([None]) #If None it uses the min between 10 * n_instances and 1000
+        #for d, stc_shapelet_length_prop in enumerate([1.0, 0.7, 0.3]) --> nicht notwendig, da über max_shapelet_length schon reduziert werden kann
     ]
     return parameters
 
@@ -347,7 +350,7 @@ def generate_clfs(possible_parameters):
         "max_shapelets",
         ]
 
-    clfs = [[ShapeletTransformClassifier(), "STC", stc_results_cols, ["10000", "None", "None"]]]
+    clfs = [[ShapeletTransformClassifier(), "STC", stc_results_cols, ["10000 without dilation", "None", "None"]]]
     for params in possible_parameters:
 
         stc_params = {
@@ -363,13 +366,29 @@ def generate_clfs(possible_parameters):
 
 # ### Benchmark ###
 
-# In[15]:
+# In[20]:
 
 
 import benchmark
+import os
 
+benchmark_name = "STC_DILATION_N_SHAPELET_SAMPLES"
+save_data = True
+save_plots = True
+
+os.mkdir("./results/" + benchmark_name)
 parameters = generate_parameters()
 clfs = generate_clfs(parameters)
 
-benchmark.run(clfs=clfs,datasets=datasets,benchmark_name="bulk_STC_fastdataset")
+all_results, all_results_mean = benchmark.run(clfs=clfs,datasets=datasets, benchmark_name=benchmark_name, save_data=save_data)
+
+
+# ### Visualize Results ###
+
+# In[22]:
+
+
+import visualize
+visualize.boxplots(all_results, benchmark_name=benchmark_name, save_boxplots=save_plots)
+visualize.barplots(all_results_mean, benchmark_name=benchmark_name, save_barcharts=save_plots)
 
