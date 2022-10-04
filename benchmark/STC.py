@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[16]:
+# In[1]:
 
 
 from sktime.classification.shapelet_based import ShapeletTransformClassifier
@@ -12,7 +12,7 @@ from sktime.benchmarking.data import UEADataset, make_datasets
 
 # ### Settings ###
 
-# In[17]:
+# In[2]:
 
 
 fast_datasets = [
@@ -158,7 +158,7 @@ fast_datasets = [
 ]
 
 
-# In[18]:
+# In[3]:
 
 
 all_datasets = [
@@ -293,7 +293,7 @@ all_datasets = [
 ]
 
 
-# In[19]:
+# In[4]:
 
 
 DATA_PATH = "./Univariate_ts"
@@ -327,9 +327,9 @@ datasets = make_datasets(
 def generate_parameters():
     parameters = [
         [stc_n_shapelet_samples, stc_max_shapelet_length, stc_max_shapelets]
-        for a, stc_n_shapelet_samples in enumerate([10000, 15000, 20000, 25000, 30000, 35000])
+        for a, stc_n_shapelet_samples in enumerate([10000, 15000, 20000, 25000, 30000, 35000]) 
         for b, stc_max_shapelet_length in enumerate([None])
-        for c, stc_max_shapelets in enumerate([None]) #If None it uses the min between 10 * n_instances and 1000
+        for c, stc_max_shapelets in enumerate([None]) # If None it uses the min between 10 * n_instances and 1000
         #for d, stc_shapelet_length_prop in enumerate([1.0, 0.7, 0.3]) --> nicht notwendig, da über max_shapelet_length schon reduziert werden kann
     ]
     return parameters
@@ -366,13 +366,14 @@ def generate_clfs(possible_parameters):
 
 # ### Benchmark ###
 
-# In[20]:
+# In[5]:
 
 
 import benchmark
 import os
 
 benchmark_name = "STC_DILATION_N_SHAPELET_SAMPLES"
+base_column = 'n_shapelet_samples'
 save_data = True
 save_plots = True
 
@@ -385,10 +386,10 @@ all_results, all_results_mean = benchmark.run(clfs=clfs,datasets=datasets, bench
 
 # ### Visualize Results ###
 
-# In[22]:
+# In[6]:
 
 
 import visualize
-visualize.boxplots(all_results, benchmark_name=benchmark_name, save_boxplots=save_plots)
-visualize.barplots(all_results_mean, benchmark_name=benchmark_name, save_barcharts=save_plots)
+visualize.boxplots(all_results, benchmark_name=benchmark_name, save_boxplots=save_plots, base_column=base_column)
+visualize.barplots(all_results_mean, benchmark_name=benchmark_name, save_barcharts=save_plots, base_column=base_column)
 
