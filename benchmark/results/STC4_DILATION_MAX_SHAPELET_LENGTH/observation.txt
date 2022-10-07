@@ -1,0 +1,1 @@
+predict-time und fit-time werden mit grösserem max_shapelet_length KUERZER!

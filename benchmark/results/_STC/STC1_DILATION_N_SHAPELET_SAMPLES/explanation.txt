@@ -1,0 +1,3 @@
+Da stc_n_shapelet_samples erst der zweite Filter ist, werden mehr shapelets im ersten Schritt berücksichtig. 
+Allerding ist max_shapelets = None -> If None it uses the min between 10 * n_instances and 1000. 
+Deshalb kommt auch immer die gleiche Anzahl an features (bzw. shapelets am Ende raus)
