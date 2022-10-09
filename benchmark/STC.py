@@ -327,9 +327,9 @@ datasets = make_datasets(
 def generate_parameters():
     parameters = [
         [stc_n_shapelet_samples, stc_max_shapelet_length, stc_max_shapelets]
-        for a, stc_n_shapelet_samples in enumerate([10000]) 
-        for b, stc_max_shapelet_length in enumerate([None,7,9,11,20,30,40,80])
-        for c, stc_max_shapelets in enumerate([10000]) # If None it uses the min between 10 * n_instances and 1000
+        for a, stc_n_shapelet_samples in enumerate([10000, 20000, 30000, 50000]) 
+        for b, stc_max_shapelet_length in enumerate([None,9,20,40,80,100, 200])
+        for c, stc_max_shapelets in enumerate([None, 10000, 20000, 30000, 50000]) # If None it uses the min between 10 * n_instances and 1000
         #for d, stc_shapelet_length_prop in enumerate([1.0, 0.7, 0.3]) --> nicht notwendig, da über max_shapelet_length schon reduziert werden kann
     ]
     return parameters
@@ -372,8 +372,8 @@ def generate_clfs(possible_parameters):
 import benchmark
 import os
 
-benchmark_name = "STC_DILATION_MAX_SHAPELET_LENGTH"
-base_column = 'max_shapelet_length'
+benchmark_name = "STC_BULK"
+#base_column = 'max_shapelet_length'
 save_data = True
 save_plots = True
 
@@ -390,6 +390,6 @@ all_results, all_results_mean = benchmark.run(clfs=clfs,datasets=datasets, bench
 
 
 import visualize
-visualize.boxplots(all_results, benchmark_name=benchmark_name, save_boxplots=save_plots, base_column=base_column)
-visualize.barplots(all_results_mean, benchmark_name=benchmark_name, save_barcharts=save_plots, base_column=base_column)
+#visualize.boxplots(all_results, benchmark_name=benchmark_name, save_boxplots=save_plots, base_column=base_column)
+#visualize.barplots(all_results_mean, benchmark_name=benchmark_name, save_barcharts=save_plots, base_column=base_column)
 
