@@ -1,4 +1,4 @@
-,Classifier,Dataset,Accuracy,Fit-Time,Predict-Time,total_feature_count,num_of_random_dilations,win_lengths,norm_options,word_lengths,alphabet_size,feature_selection,max_feature_count
+,Classifier,Dataset,Accuracy,Fit-Time,Predict-Time,total_feature_count,num_of_random_dilations_per_window,win_lengths,norm_options,word_lengths,alphabet_size,feature_selection,max_feature_count
 0,CBOSS,ArrowHead,0.84571,5.02299,6.10813,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
 1,CBOSS,Beef,0.73333,4.66186,1.53108,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
 2,CBOSS,BeetleFly,0.95,6.81146,1.23817,NULL,NULL,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256

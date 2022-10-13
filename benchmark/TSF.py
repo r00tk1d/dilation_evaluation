@@ -320,10 +320,10 @@ def generate_parameters():
     parameters = [
         [tsf_n_intervals_prop, tsf_interval_length_prop, tsf_interval_lengths, tsf_num_of_random_dilations, tsf_n_estimators, tsf_n_intervals]
         for a, tsf_n_intervals_prop in enumerate([1.0]) # default: Parameter existiert nicht (1.0)
-        for f, tsf_n_intervals in enumerate([100, 1000, 3000, 5000, 7000, 10000]) # default: Parameter existiert nicht (0)
+        for f, tsf_n_intervals in enumerate([3000]) # default: Parameter existiert nicht (0)
 
-        for b, tsf_interval_length_prop in enumerate([1.0])  # default: Parameter existiert nicht (1.0) (toggle in sktime repo)
-        for c, tsf_interval_lengths in enumerate([[1]]) # default: Parameter existiert nicht (toggle in sktime repo)
+        for b, tsf_interval_length_prop in enumerate([1.0, 0.8, 0.6, 0.4, 0.2])  # default: Parameter existiert nicht (1.0) (toggle in sktime repo)
+        for c, tsf_interval_lengths in enumerate([[0]]) # default: Parameter existiert nicht (toggle in sktime repo) (min_interval (3) muss hier dabei sein)
 
         for d, tsf_num_of_random_dilations in enumerate([1])  # default: Parameter existiert nicht
         for e, tsf_n_estimators in enumerate([200])  # default: 200, The number of trees in the forest.
@@ -368,10 +368,10 @@ def generate_clfs(possible_parameters):
 import benchmark
 import os
 
-benchmark_name = "TSF_DILATION_n_intervals"
+benchmark_name = "TSF_DILATION_interval_length_prop"
 save_data = True
 save_plots = True
-base_column = 'n_intervals'
+base_column = 'interval_length_prop'
 
 os.mkdir("./results/" + benchmark_name)
 parameters = generate_parameters()
