@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[8]:
+# In[1]:
 
 
 from sktime.classification.dictionary_based import ContractableBOSS
@@ -16,7 +16,7 @@ import seaborn as sns
 
 # ### Settings ###
 
-# In[9]:
+# In[2]:
 
 
 fast_datasets = [
@@ -162,7 +162,7 @@ fast_datasets = [
 ]
 
 
-# In[10]:
+# In[3]:
 
 
 all_datasets = [
@@ -297,7 +297,7 @@ all_datasets = [
 ]
 
 
-# In[11]:
+# In[4]:
 
 
 from typing import Dict, List
@@ -325,11 +325,11 @@ datasets = make_datasets(
 def generate_parameters():
     parameters = [
         [cboss_num_of_random_dilations_per_win_size, cboss_win_lengths, cboss_norm_options, cboss_word_lengths, cboss_alphabet_size, cboss_feature_selection, cboss_max_feature_count]
-        for cboss_num_of_random_dilations_per_win_size in range(1, 50, 4) # default: Parameter existiert nicht
-        for w, cboss_win_lengths in enumerate([[100, 90, 80, 70, 60, 50, 40, 30, 20, 12], [20, 40, 60, 80, 100, 120], [12, 20, 30, 40, 50]]) # default: Parameter existiert nicht
+        for a, cboss_num_of_random_dilations_per_win_size in enumerate([5, 10, 20, 30, 40]) # default: Parameter existiert nicht
+        for w, cboss_win_lengths in enumerate([[8, 9, 11]]) # default: Parameter existiert nicht (Nutzung in sktime togglen)
         for n, cboss_norm_options in enumerate([[True,False]]) # default: [True, False]
-        for g, cboss_word_lengths in enumerate([[4,6], [6], [6,8], [8]]) # default: [16, 14, 12, 10, 8]
-        for k, cboss_alphabet_size in enumerate([2, 4]) # default: 4
+        for g, cboss_word_lengths in enumerate([[8]]) # default: [16, 14, 12, 10, 8]
+        for k, cboss_alphabet_size in enumerate([2]) # default: 4
         for i, cboss_feature_selection in enumerate(["chi2"]) # default: "none"
         for p, cboss_max_feature_count in enumerate([256]) # default: 256 | wird nur von feature_selection = random genutzt
     ]
@@ -346,7 +346,7 @@ def generate_clfs(list_of_parameters):
         "Predict-Time",
         "total_feature_count",
 
-        "num_of_random_dilations",
+        "num_of_random_dilations_per_win_size",
         "win_lengths",
         "norm_options",
         "word_lengths",
@@ -354,20 +354,12 @@ def generate_clfs(list_of_parameters):
         "feature_selection",
         "max_feature_count"]
 
-    # cboss_params = {
-    #     "num_of_random_dilations": params[0], 
-    #     "win_lengths": params[1], 
-    #     "norm_options": params[2], 
-    #     "word_lengths": params[3],
-    #     "alphabet_size": params[4],
-    #     "feature_selection": params[5],
-    #     "max_feature_count": params[6],}
     
-    clfs = [[ContractableBOSS(), "CBOSS", cboss_results_cols, ["NULL", "NULL", "[True, False]", "[16, 14, 12, 10, 8]", "4", "none", "256"]]]
+    clfs = [[ContractableBOSS(), "CBOSS", cboss_results_cols, ["NULL", "NULL", "[True, False]", "[16, 14, 12, 10, 8]", "4", "none", "256"]]] #
     for params in list_of_parameters:
 
         cboss_dilation_params = {
-            "num_of_random_dilations": params[0], 
+            "num_of_random_dilations_per_win_size": params[0], 
             "win_lengths": params[1], 
             "norm_options": params[2], 
             "word_lengths": params[3],
@@ -379,88 +371,19 @@ def generate_clfs(list_of_parameters):
 
     return clfs
 
-def show_boxplots(dfs: List[pd.DataFrame], benchmark_name: str, save_boxplots: bool):
-    acc_dict = {}
-    # fit_dict = {}
-    # predict_dict = {}
-
-    for i, result_df in enumerate(dfs):
-        boxplot_name = result_df['num_of_random_dilations'][0]
-        acc_dict[boxplot_name] = result_df['Accuracy']
-        # fit_dict[boxplot_name] = result_df['Fit-Time']
-        # predict_dict[boxplot_name] = result_df['Predict-Time']
-
-    acc_dfs = pd.DataFrame(acc_dict)
-    # fit_dfs = pd.DataFrame(fit_dict)
-    # predict_dfs = pd.DataFrame(predict_dict)
-
-    sns.set_style('white')
-    sns.despine()
-    sns.boxplot(data=acc_dfs).set_title('Accuracy')
-    plt.xlabel("num_of_random_dilations_per_window")
-    plt.ylabel("accuracy in percent")
-    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_acc.png")
-    plt.show()
-
-    # sns.boxplot(data=fit_dfs).set_title('Fit-Time')
-    # plt.xlabel("num_of_random_dilations_per_window")
-    # plt.ylabel("fit-time in seconds")
-    # if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_fit.png")
-    # plt.show()
-
-    # sns.boxplot(data=predict_dfs).set_title('Predict-Time')
-    # plt.xlabel("num_of_random_dilations_per_window")
-    # plt.ylabel("predict-time in seconds")
-    # if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_predict.png")
-    # plt.show()
-
-def show_barcharts(dfs: List[pd.DataFrame], benchmark_name: str, save_barcharts: bool):
-    acc_dict = {}
-    fit_dict = {}
-    predict_dict = {}
-
-    for i, result_df in enumerate(dfs):
-        boxplot_name = result_df['num_of_random_dilations'][0]
-        acc_dict[boxplot_name] = result_df['Accuracy']
-        fit_dict[boxplot_name] = result_df['Fit-Time']
-        predict_dict[boxplot_name] = result_df['Predict-Time']
-
-    acc_dfs = pd.DataFrame(acc_dict)
-    fit_dfs = pd.DataFrame(fit_dict)
-    predict_dfs = pd.DataFrame(predict_dict)
-
-    sns.set_style('white')
-    sns.despine()
-    sns.barplot(data=acc_dfs).set_title('Mean Accuracy')
-    plt.xlabel("num_of_random_dilations_per_window")
-    plt.ylabel("mean accuracy in percent")
-    if(save_barcharts): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_av_acc.png")
-    plt.show()
-
-    sns.barplot(data=fit_dfs).set_title('Fit-Time')
-    plt.xlabel("num_of_random_dilations_per_window")
-    plt.ylabel("fit-time in seconds")
-    if(save_barcharts): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_av_fit.png")
-    plt.show()
-
-    sns.barplot(data=predict_dfs).set_title('Predict-Time')
-    plt.xlabel("num_of_random_dilations_per_window")
-    plt.ylabel("predict-time in seconds")
-    if(save_barcharts): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_av_predict.png")
-    plt.show()
-
 
 # ### Benchmark ###
 
-# In[13]:
+# In[5]:
 
 
 import benchmark
 import os
 
-benchmark_name= "CBOSS_DILATION_BULK_FASTDATASET"
+benchmark_name= "CBOSS_DILATION_with_ROCKET_window-alphabet2"
 save_data = True
 save_plots = True
+base_column = "num_of_random_dilations_per_win_size"
 
 os.mkdir("./results/" + benchmark_name)
 parameters = generate_parameters()
@@ -471,10 +394,10 @@ all_results, all_results_mean = benchmark.run(clfs=clfs,datasets=datasets, bench
 
 # ### Visualize Results ###
 
-# In[ ]:
+# In[6]:
 
 
-# import visualize
-# visualize.boxplots(all_results, benchmark_name=benchmark_name, save_boxplots=save_plots)
-# visualize.barplots(all_results_mean, benchmark_name=benchmark_name, save_barcharts=save_plots)
+import visualize
+visualize.boxplots(all_results, benchmark_name=benchmark_name, save_boxplots=save_plots, base_column=base_column)
+visualize.barplots(all_results_mean, benchmark_name=benchmark_name, save_barcharts=save_plots, base_column=base_column)
 
