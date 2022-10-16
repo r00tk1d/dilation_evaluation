@@ -1,0 +1,11 @@
+,Classifier,Dataset,Accuracy,Fit-Time,Predict-Time,total_feature_count,dilations_per_param_comb,win_lengths,norm_options,word_lengths,alphabet_size,feature_selection,max_feature_count
+0,CBOSS,ALL_AVERAGE,0.8442896000000001,6.4320164,9.4948696,99349.44,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+0,CBOSS_Dilation,ALL_AVERAGE,0.8348751999999999,10.130008799999999,8.2897108,11911.24,1,"[8, 9, 11]","[True, False]","[16, 14, 12, 10, 8]",4,chi2,256
+0,CBOSS_Dilation,ALL_AVERAGE,0.8241444,19.6730364,8.606631199999999,12353.92,3,"[8, 9, 11]","[True, False]","[16, 14, 12, 10, 8]",4,chi2,256
+0,CBOSS_Dilation,ALL_AVERAGE,0.8307524000000001,27.7832116,8.5896812,12356.0,5,"[8, 9, 11]","[True, False]","[16, 14, 12, 10, 8]",4,chi2,256
+0,CBOSS_Dilation,ALL_AVERAGE,0.8079031999999999,40.3670852,8.6167112,12015.12,10,"[8, 9, 11]","[True, False]","[16, 14, 12, 10, 8]",4,chi2,256
+0,CBOSS_Dilation,ALL_AVERAGE,0.7618056,39.1995216,8.6271108,13387.68,20,"[8, 9, 11]","[True, False]","[16, 14, 12, 10, 8]",4,chi2,256
+0,CBOSS_Dilation,ALL_AVERAGE,0.7553152,52.835775600000005,8.6843752,13033.6,30,"[8, 9, 11]","[True, False]","[16, 14, 12, 10, 8]",4,chi2,256
+0,CBOSS_Dilation,ALL_AVERAGE,0.7403288,34.67766760000001,8.6552996,14973.52,40,"[8, 9, 11]","[True, False]","[16, 14, 12, 10, 8]",4,chi2,256
+0,CBOSS_Dilation,ALL_AVERAGE,0.7100431999999999,102.47055119999999,8.591364,11853.72,60,"[8, 9, 11]","[True, False]","[16, 14, 12, 10, 8]",4,chi2,256
+0,CBOSS_Dilation,ALL_AVERAGE,0.7440204,71.5313444,8.625433600000001,11031.0,80,"[8, 9, 11]","[True, False]","[16, 14, 12, 10, 8]",4,chi2,256

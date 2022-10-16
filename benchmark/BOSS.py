@@ -324,12 +324,12 @@ datasets = make_datasets(
 # REMINDER: feature_count = num_of_random_dilations * _transformed_data.shape[1]
 def generate_parameters():
     parameters = [
-        [cboss_num_of_random_dilations_per_win_size, cboss_win_lengths, cboss_norm_options, cboss_word_lengths, cboss_alphabet_size, cboss_feature_selection, cboss_max_feature_count]
-        for a, cboss_num_of_random_dilations_per_win_size in enumerate([5, 10, 20, 30, 40]) # default: Parameter existiert nicht
+        [cboss_dilations_per_param_comb, cboss_win_lengths, cboss_norm_options, cboss_word_lengths, cboss_alphabet_size, cboss_feature_selection, cboss_max_feature_count]
+        for a, cboss_dilations_per_param_comb in enumerate([1, 3, 5, 10, 20, 30, 40, 60, 80]) # default: Parameter existiert nicht
         for w, cboss_win_lengths in enumerate([[8, 9, 11]]) # default: Parameter existiert nicht (Nutzung in sktime togglen)
         for n, cboss_norm_options in enumerate([[True,False]]) # default: [True, False]
-        for g, cboss_word_lengths in enumerate([[8]]) # default: [16, 14, 12, 10, 8]
-        for k, cboss_alphabet_size in enumerate([2]) # default: 4
+        for g, cboss_word_lengths in enumerate([[16, 14, 12, 10, 8]]) # default: [16, 14, 12, 10, 8]
+        for k, cboss_alphabet_size in enumerate([4]) # default: 4
         for i, cboss_feature_selection in enumerate(["chi2"]) # default: "none"
         for p, cboss_max_feature_count in enumerate([256]) # default: 256 | wird nur von feature_selection = random genutzt
     ]
@@ -346,7 +346,7 @@ def generate_clfs(list_of_parameters):
         "Predict-Time",
         "total_feature_count",
 
-        "num_of_random_dilations_per_win_size",
+        "dilations_per_param_comb",
         "win_lengths",
         "norm_options",
         "word_lengths",
@@ -355,11 +355,11 @@ def generate_clfs(list_of_parameters):
         "max_feature_count"]
 
     
-    clfs = [[ContractableBOSS(), "CBOSS", cboss_results_cols, ["NULL", "NULL", "[True, False]", "[16, 14, 12, 10, 8]", "4", "none", "256"]]] #
+    clfs = [[ContractableBOSS(), "CBOSS", cboss_results_cols, [0, "NULL", "[True, False]", "[16, 14, 12, 10, 8]", "4", "none", "256"]]] #
     for params in list_of_parameters:
 
         cboss_dilation_params = {
-            "num_of_random_dilations_per_win_size": params[0], 
+            "dilations_per_param_comb": params[0], 
             "win_lengths": params[1], 
             "norm_options": params[2], 
             "word_lengths": params[3],
@@ -380,10 +380,10 @@ def generate_clfs(list_of_parameters):
 import benchmark
 import os
 
-benchmark_name= "CBOSS_DILATION_with_ROCKET_window-alphabet2"
+benchmark_name= "CBOSS_DILATION_dilations_per_param_comb"
 save_data = True
 save_plots = True
-base_column = "num_of_random_dilations_per_win_size"
+base_column = "dilations_per_param_comb"
 
 os.mkdir("./results/" + benchmark_name)
 parameters = generate_parameters()
