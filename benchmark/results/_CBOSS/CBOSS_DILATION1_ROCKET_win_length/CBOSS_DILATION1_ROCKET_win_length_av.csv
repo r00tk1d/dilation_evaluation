@@ -1,0 +1,9 @@
+,Classifier,Dataset,Accuracy,Fit-Time,Predict-Time,total_feature_count,dilations_per_param_comb,win_lengths,norm_options,word_lengths,alphabet_size,feature_selection,max_feature_count
+0,CBOSS,ALL_AVERAGE,0.8446419999999999,10.822302,15.366299199999998,101288.36,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+0,CBOSS_Dilation,ALL_AVERAGE,0.779762,2.6988104000000006,1.8875828000000001,1579.76,1,"[8, 9, 11]","[True, False]",[8],4,chi2,256
+0,CBOSS_Dilation,ALL_AVERAGE,0.8121552,3.1946175999999995,5.315145999999999,4616.56,3,"[8, 9, 11]","[True, False]",[8],4,chi2,256
+0,CBOSS_Dilation,ALL_AVERAGE,0.82545,2.3059087999999996,8.505361999999998,7708.44,5,"[8, 9, 11]","[True, False]",[8],4,chi2,256
+0,CBOSS_Dilation,ALL_AVERAGE,0.8244820000000002,2.2509964,13.91163,13075.72,10,"[8, 9, 11]","[True, False]",[8],4,chi2,256
+0,CBOSS_Dilation,ALL_AVERAGE,0.8139352,4.6549816,14.406988000000002,12556.48,20,"[8, 9, 11]","[True, False]",[8],4,chi2,256
+0,CBOSS_Dilation,ALL_AVERAGE,0.810326,9.6015616,14.8758728,12142.4,40,"[8, 9, 11]","[True, False]",[8],4,chi2,256
+0,CBOSS_Dilation,ALL_AVERAGE,0.7761688,16.0590648,14.4066712,12757.72,60,"[8, 9, 11]","[True, False]",[8],4,chi2,256

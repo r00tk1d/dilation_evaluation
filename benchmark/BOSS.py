@@ -325,10 +325,10 @@ datasets = make_datasets(
 def generate_parameters():
     parameters = [
         [cboss_dilations_per_param_comb, cboss_win_lengths, cboss_norm_options, cboss_word_lengths, cboss_alphabet_size, cboss_feature_selection, cboss_max_feature_count]
-        for a, cboss_dilations_per_param_comb in enumerate([1, 3, 5, 10, 20, 30, 40, 60, 80]) # default: Parameter existiert nicht
-        for w, cboss_win_lengths in enumerate([[8, 9, 11]]) # default: Parameter existiert nicht (Nutzung in sktime togglen)
+        for a, cboss_dilations_per_param_comb in enumerate([10]) # default: Parameter existiert nicht
+        for w, cboss_win_lengths in enumerate([[8,9,11],[10,20,30,40,50],[20,40,60,80,100], [10,20,30,40,50,60,70], [20,50,80,110,130,160]]) # default: Parameter existiert nicht (Nutzung in sktime togglen)
         for n, cboss_norm_options in enumerate([[True,False]]) # default: [True, False]
-        for g, cboss_word_lengths in enumerate([[16, 14, 12, 10, 8]]) # default: [16, 14, 12, 10, 8]
+        for g, cboss_word_lengths in enumerate([[8]]) # default: [16, 14, 12, 10, 8]
         for k, cboss_alphabet_size in enumerate([4]) # default: 4
         for i, cboss_feature_selection in enumerate(["chi2"]) # default: "none"
         for p, cboss_max_feature_count in enumerate([256]) # default: 256 | wird nur von feature_selection = random genutzt
@@ -380,10 +380,10 @@ def generate_clfs(list_of_parameters):
 import benchmark
 import os
 
-benchmark_name= "CBOSS_DILATION_dilations_per_param_comb"
+benchmark_name= "CBOSS_DILATION2_win_lengths"
 save_data = True
 save_plots = True
-base_column = "dilations_per_param_comb"
+base_column = "win_lengths"
 
 os.mkdir("./results/" + benchmark_name)
 parameters = generate_parameters()
