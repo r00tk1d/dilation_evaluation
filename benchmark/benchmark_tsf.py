@@ -21,7 +21,7 @@ def run(clfs, datasets, benchmark_name, save_data):
     all_results_mean = []
     for i, clf in enumerate(clfs, start=1):
         results = pd.concat(Parallel(n_jobs=-1)(delayed(benchmark_clf)(clf, dataset)for dataset in datasets), ignore_index=True)
-        #results = benchmark_clf(dataset=datasets[0], clf=clf) # for debugging with one dataset
+        # results = benchmark_clf(dataset=datasets[0], clf=clf) # for debugging with one dataset
         results_from_clf = results.loc[results["Classifier"] == clf[1]] # TODO wahrscheinlich nicht mehr nötig
         mean_acc = results_from_clf["Accuracy"].mean()
         mean_fit_time = results_from_clf["Fit-Time"].mean()
@@ -31,7 +31,7 @@ def run(clfs, datasets, benchmark_name, save_data):
         except:
             mean_feature_count = -1.0
         results_mean = pd.DataFrame(columns=clf[2])
-        results_mean.loc[len(results_mean)] = [clf[1], "ALL_AVERAGE", mean_acc, mean_fit_time, mean_pred_time, mean_feature_count] + clf[3]
+        results_mean.loc[len(results_mean)] = [clf[1], "ALL_AVERAGE", mean_acc, mean_fit_time, mean_pred_time, mean_feature_count, 0, 0, 0] + clf[3]
 
         all_results.append(results)
         all_results_mean.append(results_mean)
@@ -72,11 +72,14 @@ def benchmark_clf(clf, dataset):
         predict_time = np.round(time.process_time() - predict_time, 5)
         
         acc = np.round(accuracy_score(y_test, y_pred), 5)
-        try:
-            feature_count = clf[0].feature_count
-        except:
-            feature_count = -1.0
-        result.loc[len(result)] = [clf[1], dataset.name, acc, fit_time, predict_time, feature_count] + clf[3]
+        feature_count = clf[0].feature_count
+        get_intervals_time = clf[0].get_intervals_time
+        transform_time = clf[0].transform_time
+        fit_randomforest_time = clf[0].fit_randomforest_time
+
+        # except:
+        #     feature_count = -1.0
+        result.loc[len(result)] = [clf[1], dataset.name, acc, fit_time, predict_time, feature_count, get_intervals_time, transform_time, fit_randomforest_time] + clf[3]
         
         #print(f"clf {clf[1]} dataset {dataset.name} done")
     except Exception as e:
