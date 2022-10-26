@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[7]:
+# In[1]:
 
 
 from sktime.classification.interval_based import TimeSeriesForestClassifier
@@ -12,7 +12,7 @@ from sktime.benchmarking.data import UEADataset, make_datasets
 
 # ### Settings ###
 
-# In[8]:
+# In[2]:
 
 
 fast_datasets = [
@@ -158,7 +158,7 @@ fast_datasets = [
 ]
 
 
-# In[9]:
+# In[3]:
 
 
 all_datasets = [
@@ -295,7 +295,7 @@ all_datasets = [
 
 # ### Benchmark ###
 
-# In[10]:
+# In[4]:
 
 
 DATA_PATH = "./Univariate_ts"
@@ -318,14 +318,14 @@ datasets = make_datasets(
 #REMINDER: feature_count = 3 * n_intervals (=sqrt(series_length)) * num_of_random_dilations
 def generate_parameters():
     parameters = [
-        [tsf_n_intervals_prop, tsf_interval_length_prop, tsf_interval_lengths, tsf_num_of_random_dilations, tsf_n_estimators, tsf_n_intervals]
+        [tsf_n_intervals_prop, tsf_interval_length_prop, tsf_interval_lengths, tsf_dilations_per_interval, tsf_n_estimators, tsf_n_intervals]
         for a, tsf_n_intervals_prop in enumerate([1.0]) # default: Parameter existiert nicht (1.0)
-        for f, tsf_n_intervals in enumerate([3000]) # default: Parameter existiert nicht (0)
+        for f, tsf_n_intervals in enumerate([0, 10, 300, 1000, 3000, 9000]) # default: Parameter existiert nicht (0)
+        for d, tsf_dilations_per_interval in enumerate([1]) # default: Parameter existiert nicht
 
-        for b, tsf_interval_length_prop in enumerate([1.0, 0.8, 0.6, 0.4, 0.2])  # default: Parameter existiert nicht (1.0) (toggle in sktime repo)
+        for b, tsf_interval_length_prop in enumerate([1.0])  # default: Parameter existiert nicht (1.0) (toggle in sktime repo)
         for c, tsf_interval_lengths in enumerate([[0]]) # default: Parameter existiert nicht (toggle in sktime repo) (min_interval (3) muss hier dabei sein)
 
-        for d, tsf_num_of_random_dilations in enumerate([1])  # default: Parameter existiert nicht
         for e, tsf_n_estimators in enumerate([200])  # default: 200, The number of trees in the forest.
         
     ]
@@ -339,21 +339,24 @@ def generate_clfs(possible_parameters):
         "Fit-Time",
         "Predict-Time",
         "total_feature_count",
+        "get_intervals_time", 
+        "transform_time", 
+        "fit_randomforest_time",
         
         "n_intervals_prop",
         "interval_length_prop",
         "interval_lengths",
-        "num_of_random_dilations",
+        "dilations_per_interval",
         "n_estimators",
         "n_intervals"]
-    clfs = [[TimeSeriesForestClassifier(), "TSF", tsf_results_cols, [1.0, 1.0, [0], 0.0, 200, 0]]] #
+    clfs = [[TimeSeriesForestClassifier(), "TSF", tsf_results_cols, [-1.0, -1.0, "base clf", -1.0, 200, -1]]] #
     for params in possible_parameters:
 
         tsf_params = {
             "n_intervals_prop": params[0],
             "interval_length_prop": params[1],
             "interval_lengths": params[2],
-            "num_of_random_dilations": params[3],
+            "dilations_per_interval": params[3],
             "n_estimators": params[4],
             "n_intervals": params[5]}
 
@@ -362,30 +365,29 @@ def generate_clfs(possible_parameters):
     return clfs
 
 
-# In[11]:
+# In[5]:
 
 
-import benchmark
+import benchmark_tsf
 import os
 
-benchmark_name = "TSF_DILATION_interval_length_prop"
+benchmark_name = "TSF_DILATION2_n_intervals"
 save_data = True
 save_plots = True
-base_column = 'interval_length_prop'
+# base_column = 'dilations_per_interval'
 
 os.mkdir("./results/" + benchmark_name)
 parameters = generate_parameters()
 clfs = generate_clfs(parameters)
 
-all_results, all_results_mean = benchmark.run(clfs=clfs,datasets=datasets, benchmark_name=benchmark_name, save_data=save_data)
+all_results, all_results_mean = benchmark_tsf.run(clfs=clfs,datasets=datasets, benchmark_name=benchmark_name, save_data=save_data)
 
 
-# ### Visualize Results ###
-
-# In[ ]:
+# In[6]:
 
 
-import visualize
-visualize.boxplots(all_results, benchmark_name=benchmark_name, save_boxplots=save_plots, base_column=base_column)
-visualize.barplots(all_results_mean, benchmark_name=benchmark_name, save_barcharts=save_plots, base_column=base_column)
+# DEPRECATED: Wird jetzt separat in einem extra notebook visualisiert
+# import visualize
+# visualize.boxplots(all_results, benchmark_name=benchmark_name, save_boxplots=save_plots, base_column=base_column)
+# visualize.barplots(all_results_mean, benchmark_name=benchmark_name, save_barcharts=save_plots, base_column=base_column)
 
