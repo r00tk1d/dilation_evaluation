@@ -1,29 +1,29 @@
 ,Classifier,Dataset,Accuracy,Fit-Time,Predict-Time,total_feature_count,dilations_per_param_comb,win_lengths,norm_options,word_lengths,alphabet_size,feature_selection,max_feature_count
-0,CBOSS,ArrowHead,0.86286,10.70909,10.32124,88396,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-1,CBOSS,Beef,0.73333,8.47301,2.61083,90720,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-2,CBOSS,BeetleFly,0.9,8.04997,2.0265,148183,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-3,CBOSS,BirdChicken,0.95,12.78529,1.992,130294,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-4,CBOSS,Car,0.85,31.28177,3.94513,87452,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-5,CBOSS,CBF,0.99667,4.50908,42.63017,45316,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-6,CBOSS,Coffee,1.0,5.36591,2.20548,63708,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-7,CBOSS,DiatomSizeReduction,0.85948,4.40212,17.65377,33199,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-8,CBOSS,DistalPhalanxOutlineAgeGroup,0.74101,11.7261,8.13989,119399,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-9,CBOSS,DistalPhalanxOutlineCorrect,0.71739,19.65375,15.10687,183974,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-10,CBOSS,DistalPhalanxTW,0.69784,12.27402,8.33184,149349,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-11,CBOSS,ECG200,0.85,5.38614,5.57543,59558,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-12,CBOSS,ECGFiveDays,1.0,4.2319,41.77325,25520,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-13,CBOSS,ItalyPowerDemand,0.92323,1.70424,46.05329,17348,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-14,CBOSS,MiddlePhalanxOutlineAgeGroup,0.52597,11.6827,8.58911,115722,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-15,CBOSS,MiddlePhalanxOutlineCorrect,0.77663,17.64211,16.61566,179609,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-16,CBOSS,MiddlePhalanxTW,0.55844,11.22214,8.71264,122745,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-17,CBOSS,OliveOil,0.86667,11.14724,2.55457,20332,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-18,CBOSS,Plane,1.0,9.41336,6.25531,129046,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-19,CBOSS,ProximalPhalanxOutlineAgeGroup,0.86341,11.51865,11.9358,109345,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-20,CBOSS,ProximalPhalanxOutlineCorrect,0.85223,16.78586,16.93669,179113,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-21,CBOSS,ProximalPhalanxTW,0.81463,11.56138,12.5885,120064,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-22,CBOSS,SyntheticControl,0.95333,7.08775,14.79159,229959,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-23,CBOSS,TwoLeadECG,0.99912,2.55653,55.46587,23307,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
-24,CBOSS,Wine,0.74074,11.01704,3.89914,20790,0,NULL,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+0,CBOSS,ArrowHead,0.86286,10.70909,10.32124,88396,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+1,CBOSS,Beef,0.73333,8.47301,2.61083,90720,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+2,CBOSS,BeetleFly,0.9,8.04997,2.0265,148183,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+3,CBOSS,BirdChicken,0.95,12.78529,1.992,130294,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+4,CBOSS,Car,0.85,31.28177,3.94513,87452,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+5,CBOSS,CBF,0.99667,4.50908,42.63017,45316,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+6,CBOSS,Coffee,1.0,5.36591,2.20548,63708,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+7,CBOSS,DiatomSizeReduction,0.85948,4.40212,17.65377,33199,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+8,CBOSS,DistalPhalanxOutlineAgeGroup,0.74101,11.7261,8.13989,119399,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+9,CBOSS,DistalPhalanxOutlineCorrect,0.71739,19.65375,15.10687,183974,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+10,CBOSS,DistalPhalanxTW,0.69784,12.27402,8.33184,149349,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+11,CBOSS,ECG200,0.85,5.38614,5.57543,59558,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+12,CBOSS,ECGFiveDays,1.0,4.2319,41.77325,25520,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+13,CBOSS,ItalyPowerDemand,0.92323,1.70424,46.05329,17348,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+14,CBOSS,MiddlePhalanxOutlineAgeGroup,0.52597,11.6827,8.58911,115722,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+15,CBOSS,MiddlePhalanxOutlineCorrect,0.77663,17.64211,16.61566,179609,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+16,CBOSS,MiddlePhalanxTW,0.55844,11.22214,8.71264,122745,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+17,CBOSS,OliveOil,0.86667,11.14724,2.55457,20332,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+18,CBOSS,Plane,1.0,9.41336,6.25531,129046,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+19,CBOSS,ProximalPhalanxOutlineAgeGroup,0.86341,11.51865,11.9358,109345,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+20,CBOSS,ProximalPhalanxOutlineCorrect,0.85223,16.78586,16.93669,179113,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+21,CBOSS,ProximalPhalanxTW,0.81463,11.56138,12.5885,120064,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+22,CBOSS,SyntheticControl,0.95333,7.08775,14.79159,229959,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+23,CBOSS,TwoLeadECG,0.99912,2.55653,55.46587,23307,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
+24,CBOSS,Wine,0.74074,11.01704,3.89914,20790,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256
 0,CBOSS_Dilation,ArrowHead,0.82857,3.47866,9.25173,11417,10,"[8, 9, 11]","[True, False]",[8],4,chi2,256
 1,CBOSS_Dilation,Beef,0.76667,3.46357,2.07233,15423,10,"[8, 9, 11]","[True, False]",[8],4,chi2,256
 2,CBOSS_Dilation,BeetleFly,0.9,4.45672,1.69999,10072,10,"[8, 9, 11]","[True, False]",[8],4,chi2,256
