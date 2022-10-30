@@ -33,20 +33,19 @@ def boxplots(dfs: List[pd.DataFrame], benchmark_name: str, save_boxplots: bool, 
     plt.show()
     plt.clf()
 
-    # sns.boxplot(data=feature_count_dfs).set_title('Feature Count')
-    # plt.xticks(rotation=90)
-    # plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
-    # plt.ylabel("features")
-    # if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_feature_count.png", bbox_inches="tight")
-    # plt.show()
-    # plt.clf()
-
-    # wenn feature count als barplot dargestellt werden soll
-    sns.barplot(data=feature_count_dfs).set_title('Feature Count')
+    sns.boxplot(data=feature_count_dfs).set_title('Feature Count')
     plt.xticks(rotation=90)
     plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
     plt.ylabel("features")
-    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_feature_count.png", bbox_inches="tight")
+    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_feature_count_box.png", bbox_inches="tight")
+    plt.show()
+    plt.clf()
+
+    sns.barplot(data=feature_count_dfs, estimator=np.mean, capsize=.2).set_title('Feature Count')
+    plt.xticks(rotation=90)
+    plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
+    plt.ylabel("features")
+    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_feature_count_bar.png", bbox_inches="tight")
     plt.show()
     plt.clf()
 

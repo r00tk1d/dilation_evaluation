@@ -1,0 +1,6 @@
+,Classifier,Dataset,Accuracy,Fit-Time,Predict-Time,total_feature_count,get_intervals_time,transform_time,fit_randomforest_time,n_intervals_prop,interval_length_prop,interval_lengths,dilations_per_interval,n_estimators,n_intervals
+0,TSF,ALL_AVERAGE,0.8240076000000001,2.057016,0.9471708,37.32,0,0,0,-1.0,-1.0,base clf,-1.0,200,-1
+0,TSF_Dilation,ALL_AVERAGE,0.5914096,6.5084452,1.9074748000000001,90.0,0,0,0,1.0,1.0,"[3, 7, 9, 11]",1.0,200,30
+0,TSF_Dilation,ALL_AVERAGE,0.6718628,6.3162496,2.0274588,90.0,0,0,0,1.0,1.0,"[3, 10, 20, 30, 40]",1.0,200,30
+0,TSF_Dilation,ALL_AVERAGE,0.6850976,6.389298,2.056178,90.0,0,0,0,1.0,1.0,"[3, 10, 40, 70, 100]",1.0,200,30
+0,TSF_Dilation,ALL_AVERAGE,0.6639776000000001,6.361500800000001,2.0873475999999997,90.0,0,0,0,1.0,1.0,"[3, 10, 40, 70, 100, 130, 160]",1.0,200,30
