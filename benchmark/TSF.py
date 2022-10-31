@@ -320,11 +320,11 @@ def generate_parameters():
     parameters = [
         [tsf_n_intervals_prop, tsf_interval_length_prop, tsf_interval_lengths, tsf_dilations_per_interval, tsf_n_estimators, tsf_n_intervals]
         for a, tsf_n_intervals_prop in enumerate([1.0]) # default: Parameter existiert nicht (1.0)
-        for f, tsf_n_intervals in enumerate([30]) # default: Parameter existiert nicht (0)
+        for f, tsf_n_intervals in enumerate([40]) # default: Parameter existiert nicht (0)
         for d, tsf_dilations_per_interval in enumerate([1]) # default: Parameter existiert nicht
 
-        for b, tsf_interval_length_prop in enumerate([1.0, 0.8, 0.6, 0.4, 0.2])  # default: Parameter existiert nicht (1.0) (toggle in sktime repo)
-        for c, tsf_interval_lengths in enumerate([0]) # default: Parameter existiert nicht (toggle in sktime repo) (min_interval (3) muss hier dabei sein)
+        for b, tsf_interval_length_prop in enumerate([1.0])  # default: Parameter existiert nicht (1.0) (toggle in sktime repo)
+        for c, tsf_interval_lengths in enumerate([[3, 10, 20, 30, 40], [3,10,40,70,100,130,160], [3, 10, 40, 70, 100], [3,7,9,11]]) # default: Parameter existiert nicht (toggle in sktime repo) (min_interval (3) muss hier dabei sein)
 
         for e, tsf_n_estimators in enumerate([200])  # default: 200, The number of trees in the forest.
         
