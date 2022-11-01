@@ -325,8 +325,8 @@ datasets = make_datasets(
 def generate_parameters():
     parameters = [
         [cboss_dilations_per_param_comb, cboss_win_lengths, cboss_norm_options, cboss_word_lengths, cboss_alphabet_size, cboss_feature_selection, cboss_max_feature_count, cboss_max_win_len_prop]
-        for w, cboss_win_lengths in enumerate([[0]]) # default: Parameter existiert nicht (Nutzung in sktime togglen)
-        for u, cboss_max_win_len_prop in enumerate([1, 0.9, 0.8, 0.6, 0.4, 0.2]) # default: 1 (Nutzung in sktime togglen)
+        for w, cboss_win_lengths in enumerate([[10,25,40,55,70,85,100,115, 130], [10,40,70,100,130], [10,70,130]]) # default: Parameter existiert nicht (Nutzung in sktime togglen)
+        for u, cboss_max_win_len_prop in enumerate([1]) # default: 1 (Nutzung in sktime togglen)
 
         for a, cboss_dilations_per_param_comb in enumerate([10]) # default: Parameter existiert nicht
         for n, cboss_norm_options in enumerate([[True,False]]) # default: [True, False]
@@ -358,7 +358,7 @@ def generate_clfs(list_of_parameters):
         "max_win_len_prop"]
 
     
-    clfs = [[ContractableBOSS(), "CBOSS", cboss_results_cols, [0, -1, [True, False], [16, 14, 12, 10, 8], 4, "none", 256, 1]]] #
+    clfs = [[ContractableBOSS(), "CBOSS", cboss_results_cols, [0, -1, [True, False], [16, 14, 12, 10, 8], 4, "none", 256, -1.0]]] #
     for params in list_of_parameters:
 
         cboss_dilation_params = {
@@ -384,7 +384,7 @@ def generate_clfs(list_of_parameters):
 import benchmark
 import os
 
-benchmark_name= "CBOSS_DILATION_max_win_len_prop"
+benchmark_name= "CBOSS_DILATION2_win_lengths_different_cardinality"
 save_data = True
 
 os.mkdir("./results/" + benchmark_name)
