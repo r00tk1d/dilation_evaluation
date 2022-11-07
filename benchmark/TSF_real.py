@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[7]:
+# In[1]:
 
 
 from sktime.classification.interval_based import TimeSeriesForestClassifier
-from sktime.classification.interval_based import TimeSeriesForestClassifierDilation
+from sktime.classification.interval_based import TimeSeriesForestClassifierDilationReal
 
 from sktime.benchmarking.data import UEADataset, make_datasets
 
 
 # ### Settings ###
 
-# In[8]:
+# In[2]:
 
 
 fast_datasets = [
@@ -158,7 +158,7 @@ fast_datasets = [
 ]
 
 
-# In[9]:
+# In[3]:
 
 
 all_datasets = [
@@ -295,7 +295,7 @@ all_datasets = [
 
 # ### Benchmark ###
 
-# In[10]:
+# In[4]:
 
 
 DATA_PATH = "./Univariate_ts"
@@ -318,16 +318,17 @@ datasets = make_datasets(
 #REMINDER: feature_count = 3 * n_intervals (=sqrt(series_length)) * num_of_random_dilations
 def generate_parameters():
     parameters = [
-        [tsf_n_intervals_prop, tsf_interval_length_prop, tsf_interval_lengths, tsf_dilations_per_interval, tsf_n_estimators, tsf_n_intervals]
-        for a, tsf_n_intervals_prop in enumerate([1.0]) # default: Parameter existiert nicht (1.0)
-        for f, tsf_n_intervals in enumerate([0]) # default: Parameter existiert nicht (0)
-        for d, tsf_dilations_per_interval in enumerate([-1]) # default: Parameter existiert nicht
-
-        for b, tsf_interval_length_prop in enumerate([1.0])  # default: Parameter existiert nicht (1.0) (toggle in sktime repo)
-        for c, tsf_interval_lengths in enumerate([[0]]) # default: Parameter existiert nicht (toggle in sktime repo) (min_interval (3) muss hier dabei sein)
-
-        for e, tsf_n_estimators in enumerate([200])  # default: 200, The number of trees in the forest.
+        [tsf_n_intervals_prop, tsf_interval_length_prop, tsf_interval_lengths, tsf_max_dilation_size, tsf_n_estimators, tsf_n_intervals]
+        for f, tsf_n_intervals in enumerate([10]) # default: Parameter existiert nicht (0)
+        for e, tsf_n_estimators in enumerate([200, 300, 400, 500, 600, 700, 800, 900, 1000])  # default: 200, The number of trees in the forest.
         
+        for c, tsf_interval_lengths in enumerate([[3,7,9,11]]) # default: Parameter existiert nicht (toggle in sktime repo) (min_interval (3) muss hier dabei sein)
+
+        for d, tsf_max_dilation_size in enumerate([2]) # default: Parameter existiert nicht (muss mindestens 1 sein)
+
+        
+        for b, tsf_interval_length_prop in enumerate([1.0])  # default: Parameter existiert nicht (1.0) (toggle in sktime repo)
+        for a, tsf_n_intervals_prop in enumerate([1.0]) # default: Parameter existiert nicht (1.0)
     ]
     return parameters
 
@@ -346,34 +347,33 @@ def generate_clfs(possible_parameters):
         "n_intervals_prop",
         "interval_length_prop",
         "interval_lengths",
-        "dilations_per_interval",
+        "max_dilation_size",
         "n_estimators",
         "n_intervals",]
-    clfs = [[TimeSeriesForestClassifier(), "TSF", tsf_results_cols, [-1.0, -1.0, "base clf", -1.0, 200, -1]]] #
+    clfs = [[TimeSeriesForestClassifier(), "TSF", tsf_results_cols, [-1.0, -1.0, "base clf", -1, 200, -1]]] #
     for params in possible_parameters:
 
         tsf_params = {
             "n_intervals_prop": params[0],
             "interval_length_prop": params[1],
             "interval_lengths": params[2],
-            "dilations_per_interval": params[3],
+            "max_dilation_size": params[3],
             "n_estimators": params[4],
             "n_intervals": params[5]}
 
-        clfs.append([TimeSeriesForestClassifierDilation(**tsf_params), "TSF_Dilation", tsf_results_cols, list(tsf_params.values())])
+        clfs.append([TimeSeriesForestClassifierDilationReal(**tsf_params), "TSF_Dilation", tsf_results_cols, list(tsf_params.values())])
 
     return clfs
 
 
-# In[11]:
+# In[5]:
 
 
 import benchmark_tsf
 import os
 
-benchmark_name = "TSF_DILATION5_interval_length_prop"
-save_data = False
-save_plots = True
+benchmark_name = "TSF_DILATION_REAL4_n_estimators_ROCKET_size_n_interval_10"
+save_data = True
 
 if save_data: os.mkdir("./results/" + benchmark_name)
 parameters = generate_parameters()
@@ -382,7 +382,7 @@ clfs = generate_clfs(parameters)
 all_results, all_results_mean = benchmark_tsf.run(clfs=clfs,datasets=datasets, benchmark_name=benchmark_name, save_data=save_data)
 
 
-# In[12]:
+# In[6]:
 
 
 # DEPRECATED: Wird jetzt separat in einem extra notebook visualisiert

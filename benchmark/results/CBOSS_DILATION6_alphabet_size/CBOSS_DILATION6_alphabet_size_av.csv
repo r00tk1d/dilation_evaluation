@@ -1,0 +1,4 @@
+,Classifier,Dataset,Accuracy,Fit-Time,Predict-Time,total_feature_count,dilations_per_param_comb,win_lengths,norm_options,word_lengths,alphabet_size,feature_selection,max_feature_count,max_win_len_prop
+0,CBOSS,ALL_AVERAGE,0.8444784,6.393754400000001,9.0955384,99420.0,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256,-1.0
+0,CBOSS_Dilation,ALL_AVERAGE,0.829595,3.4644687499999995,7.322841250000001,11897.791666666666,1,[0],"[True, False]",[8],4,chi2,256,0.4
+0,CBOSS_Dilation,ALL_AVERAGE,0.8190745833333334,2.7294241666666665,7.280930000000001,2699.75,1,[0],"[True, False]",[8],2,chi2,256,0.4
