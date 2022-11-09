@@ -86,7 +86,7 @@ def times(dfs: List[pd.DataFrame], benchmark_name: str, save_boxplots: bool, bas
 
     sns.barplot(data=get_intervals_time_dfs, estimator=np.mean, capsize=.2).set_title('get_intervals')
     plt.xticks(rotation=90)
-    plt.ylim(0, 6)
+    plt.ylim(0, 2)
     plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
     plt.ylabel("seconds")
     if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_time_get_intervals.png", bbox_inches="tight")
@@ -95,7 +95,7 @@ def times(dfs: List[pd.DataFrame], benchmark_name: str, save_boxplots: bool, bas
 
     sns.barplot(data=transform_time_dfs, estimator=np.mean, capsize=.2).set_title('transform_time')
     plt.xticks(rotation=90)
-    plt.ylim(0, 6)
+    plt.ylim(0, 2)
     plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
     plt.ylabel("seconds")
     if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_time_transform.png", bbox_inches="tight")
@@ -104,7 +104,7 @@ def times(dfs: List[pd.DataFrame], benchmark_name: str, save_boxplots: bool, bas
 
     sns.barplot(data=fit_randomforest_time_dfs, estimator=np.mean, capsize=.2).set_title('fit_randomforest_time')
     plt.xticks(rotation=90)
-    plt.ylim(0, 6)
+    plt.ylim(0, 2)
     plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
     plt.ylabel("seconds")
     if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_time_fit_randomforest.png", bbox_inches="tight")

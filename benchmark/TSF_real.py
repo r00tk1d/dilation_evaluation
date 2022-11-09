@@ -300,31 +300,23 @@ all_datasets = [
 
 DATA_PATH = "./Univariate_ts"
 datasets = make_datasets(
-    path=DATA_PATH, dataset_cls=UEADataset, names=fast_datasets
+    path=DATA_PATH, dataset_cls=UEADataset, names=all_datasets
 )
 # ["ArrowHead", "Car", "CBF", "Coffee"]
 # ["ArrowHead"]
 # all_datasets
 # fast_datasets
 
-
-# TimeSeriesForest_Dilation Hyperparameter:
-# tsf_n_intervals_prop = 1.0 # Anzahl an Intervallen (hier vergrößern damit mehr features entstehen)
-# tsf_interval_length_prop = 1.0 # dient dazu die window size zu reduzieren (also verkleinern)
-# tsf_num_of_random_dilations = 1
-# tsf_n_estimators=200
-
-
 #REMINDER: feature_count = 3 * n_intervals (=sqrt(series_length))
 def generate_parameters():
     parameters = [
         [tsf_n_intervals_prop, tsf_interval_length_prop, tsf_interval_lengths, tsf_max_dilation_size, tsf_n_estimators, tsf_n_intervals]
         for f, tsf_n_intervals in enumerate([10]) # default: Parameter existiert nicht (0)
-        for e, tsf_n_estimators in enumerate([200,300,400])  # default: 200, The number of trees in the forest.
+        for e, tsf_n_estimators in enumerate([200])  # default: 200, The number of trees in the forest.
         
-        for c, tsf_interval_lengths in enumerate([[3]]) # default: Parameter existiert nicht (toggle in sktime repo) (min_interval (3) muss hier dabei sein)
+        for c, tsf_interval_lengths in enumerate([[3,4,5,6]]) # default: Parameter existiert nicht (toggle in sktime repo) (min_interval (3) muss hier dabei sein)
 
-        for d, tsf_max_dilation_size in enumerate([2,3,4,5]) # default: Parameter existiert nicht (muss mindestens 1 sein)
+        for d, tsf_max_dilation_size in enumerate([2]) # default: Parameter existiert nicht (muss mindestens 1 sein)
 
         
         for b, tsf_interval_length_prop in enumerate([1.0])  # default: Parameter existiert nicht (1.0) (toggle in sktime repo)
@@ -372,7 +364,7 @@ def generate_clfs(possible_parameters):
 import benchmark_tsf
 import os
 
-benchmark_name = "TSF_DILATION_REAL5_win_length_3"
+benchmark_name = "TSF_DILATION_REAL_UCR_best_params"
 save_data = True
 
 if save_data: os.mkdir("./results/" + benchmark_name)
