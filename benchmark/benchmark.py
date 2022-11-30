@@ -20,6 +20,7 @@ def run(clfs, datasets, benchmark_name, save_data):
     all_results = []
     all_results_mean = []
     for i, clf in enumerate(clfs, start=1):
+        total_runtime = time.process_time()
         results = pd.concat(Parallel(n_jobs=-1)(delayed(benchmark_clf)(clf, dataset)for dataset in datasets), ignore_index=True)
         #results = benchmark_clf(dataset=datasets[0], clf=clf) # for debugging with one dataset
         results_from_clf = results.loc[results["Classifier"] == clf[1]] # TODO wahrscheinlich nicht mehr nötig
@@ -40,6 +41,8 @@ def run(clfs, datasets, benchmark_name, save_data):
         print(f"clf {i}/{len(clfs)} done")
         results_mean = results_mean[0:0]
         results = results[0:0]
+        total_runtime = np.round(time.process_time() - total_runtime, 5)
+        print(total_runtime)
     if(save_data):
         save_results(all_results, all_results_mean, benchmark_name)
     return all_results, all_results_mean

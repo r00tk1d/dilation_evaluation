@@ -1,0 +1,3 @@
+,Classifier,Dataset,Accuracy,Fit-Time,Predict-Time,total_feature_count,dilations_per_param_comb,win_lengths,norm_options,word_lengths,alphabet_size,feature_selection,max_feature_count,max_win_len_prop
+0,CBOSS,ALL_AVERAGE,0.8178582142857144,188.04779151785715,39.188570625,600949.7678571428,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256,-1.0
+0,CBOSS_Dilation,ALL_AVERAGE,0.8030031531531532,23.525281171171166,30.528681891891885,95622.31531531531,1,[0],"[True, False]",[8],4,chi2,256,0.6

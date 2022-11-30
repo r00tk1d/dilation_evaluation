@@ -191,9 +191,9 @@ all_datasets = [
     "DistalPhalanxOutlineAgeGroup",
     "DistalPhalanxOutlineCorrect",
     "DistalPhalanxTW",
-    # 'DodgerLoopDay',
-    # 'DodgerLoopGame',
-    # 'DodgerLoopWeekend',
+    'DodgerLoopDay', #
+    'DodgerLoopGame', #
+    'DodgerLoopWeekend', #
     'Earthquakes',
     "ECG200",
     'ECG5000',
@@ -211,13 +211,13 @@ all_datasets = [
     'FordB',
     'FreezerRegularTrain',
     'FreezerSmallTrain',
-    #'Fungi',
+    'Fungi', #
     'GestureMidAirD1',
     'GestureMidAirD2',
     'GestureMidAirD3',
     'GesturePebbleZ1',
     'GesturePebbleZ2',
-    ####"Gun_Point",
+    'GunPoint', #
     'GunPointAgeSpan',
     'GunPointMaleVersusFemale',
     'GunPointOldVersusYoung',
@@ -271,8 +271,8 @@ all_datasets = [
     'ShapesAll',
     'SmallKitchenAppliances',
     'SmoothSubspace',
-    ###"SonyAIBORobot Surface",
-    ###"SonyAIBORobot SurfaceII",
+    "SonyAIBORobotSurface1", #
+    "SonyAIBORobotSurface2", #
     'StarLightCurves',
     'Strawberry',
     'SwedishLeaf',
@@ -305,7 +305,7 @@ from typing import Dict, List
 
 DATA_PATH = "./Univariate_ts"
 datasets = make_datasets(
-    path=DATA_PATH, dataset_cls=UEADataset, names=fast_datasets
+    path=DATA_PATH, dataset_cls=UEADataset, names=all_datasets
 )
 # ["ArrowHead", "Car", "CBF", "Coffee"]
 # ["ArrowHead"]
@@ -325,10 +325,10 @@ datasets = make_datasets(
 def generate_parameters():
     parameters = [
         [cboss_dilations_per_param_comb, cboss_win_lengths, cboss_norm_options, cboss_word_lengths, cboss_alphabet_size, cboss_feature_selection, cboss_max_feature_count, cboss_max_win_len_prop]
-        for w, cboss_win_lengths in enumerate([[10, 15, 20, 25, 30]]) # default: Parameter existiert nicht (Nutzung in sktime togglen)
-        for u, cboss_max_win_len_prop in enumerate([1.0]) # default: 1 (Nutzung in sktime togglen)
+        for w, cboss_win_lengths in enumerate([[0]]) # default: Parameter existiert nicht (Nutzung in sktime togglen)
+        for u, cboss_max_win_len_prop in enumerate([0.6]) # default: 1 (Nutzung in sktime togglen)
 
-        for a, cboss_dilations_per_param_comb in enumerate([1, 2, 3, 5, 8, 10]) # default: Parameter existiert nicht
+        for a, cboss_dilations_per_param_comb in enumerate([1]) # default: Parameter existiert nicht
         for n, cboss_norm_options in enumerate([[True,False]]) # default: [True, False]
         for g, cboss_word_lengths in enumerate([[8]]) # default: [16, 14, 12, 10, 8]
         for k, cboss_alphabet_size in enumerate([4]) # default: 4
@@ -378,18 +378,20 @@ def generate_clfs(list_of_parameters):
 
 # ### Benchmark ###
 
-# In[6]:
+# In[5]:
 
 
 import benchmark
 import os
 
-benchmark_name= "CBOSS_DILATION3_best_win_lengths_dilations"
+benchmark_name= "CBOSS_DILATION_UCR_best_params"
 save_data = True
 
-os.mkdir("./results/" + benchmark_name)
+if save_data: os.mkdir("./results/" + benchmark_name)
 parameters = generate_parameters()
 clfs = generate_clfs(parameters)
 
+
 all_results, all_results_mean = benchmark.run(clfs=clfs,datasets=datasets, benchmark_name=benchmark_name, save_data=save_data)
+
 
