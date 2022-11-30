@@ -49,7 +49,7 @@ def boxplots(dfs: List[pd.DataFrame], benchmark_name: str, save_boxplots: bool, 
     plt.show()
     plt.clf()
 
-    sns.barplot(data=fit_dfs, estimator=np.mean, capsize=.2).set_title('Fit-Time')
+    sns.boxplot(data=fit_dfs).set_title('Fit-Time')
     plt.xticks(rotation=90)
     plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
     plt.ylabel("fit-time in seconds")
@@ -57,11 +57,27 @@ def boxplots(dfs: List[pd.DataFrame], benchmark_name: str, save_boxplots: bool, 
     plt.show()
     plt.clf()
 
-    sns.barplot(data=predict_dfs, estimator=np.mean, capsize=.2).set_title('Predict-Time')
+    sns.barplot(data=fit_dfs, estimator=np.mean, capsize=.2).set_title('Fit-Time')
+    plt.xticks(rotation=90)
+    plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
+    plt.ylabel("fit-time in seconds")
+    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_fit_bar.png", bbox_inches="tight")
+    plt.show()
+    plt.clf()
+
+    sns.boxplot(data=predict_dfs).set_title('Predict-Time')
     plt.xticks(rotation=90)
     plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
     plt.ylabel("predict-time in seconds")
     if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_predict.png", bbox_inches="tight")
+    plt.show()
+    plt.clf()
+
+    sns.barplot(data=predict_dfs, estimator=np.mean, capsize=.2).set_title('Predict-Time')
+    plt.xticks(rotation=90)
+    plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
+    plt.ylabel("predict-time in seconds")
+    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_predict_bar.png", bbox_inches="tight")
     plt.show()
     plt.clf()
 
