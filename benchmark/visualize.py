@@ -5,7 +5,7 @@ import seaborn as sns
 import numpy as np
 
 # for visualizing the whole data
-def boxplots(dfs: List[pd.DataFrame], benchmark_name: str, save_boxplots: bool, base_column: str):
+def plots(dfs: List[pd.DataFrame], benchmark_name: str, save_plots: bool, base_column: str):
     acc_dict = {}
     feature_count_dict = {}
     fit_dict = {}
@@ -29,7 +29,7 @@ def boxplots(dfs: List[pd.DataFrame], benchmark_name: str, save_boxplots: bool, 
     plt.xticks(rotation=90)
     plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
     plt.ylabel("accuracy in percent")
-    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_acc.png", bbox_inches="tight")
+    if save_plots: plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_acc.png", bbox_inches="tight")
     plt.show()
     plt.clf()
 
@@ -37,7 +37,7 @@ def boxplots(dfs: List[pd.DataFrame], benchmark_name: str, save_boxplots: bool, 
     plt.xticks(rotation=90)
     plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
     plt.ylabel("features")
-    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_feature_count_box.png", bbox_inches="tight")
+    if save_plots: plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_feature_count_box.png", bbox_inches="tight")
     plt.show()
     plt.clf()
 
@@ -45,7 +45,7 @@ def boxplots(dfs: List[pd.DataFrame], benchmark_name: str, save_boxplots: bool, 
     plt.xticks(rotation=90)
     plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
     plt.ylabel("features")
-    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_feature_count_bar.png", bbox_inches="tight")
+    if save_plots: plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_feature_count_bar.png", bbox_inches="tight")
     plt.show()
     plt.clf()
 
@@ -53,7 +53,7 @@ def boxplots(dfs: List[pd.DataFrame], benchmark_name: str, save_boxplots: bool, 
     plt.xticks(rotation=90)
     plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
     plt.ylabel("fit-time in seconds")
-    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_fit.png", bbox_inches="tight")
+    if save_plots: plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_fit.png", bbox_inches="tight")
     plt.show()
     plt.clf()
 
@@ -61,7 +61,7 @@ def boxplots(dfs: List[pd.DataFrame], benchmark_name: str, save_boxplots: bool, 
     plt.xticks(rotation=90)
     plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
     plt.ylabel("fit-time in seconds")
-    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_fit_bar.png", bbox_inches="tight")
+    if save_plots: plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_fit_bar.png", bbox_inches="tight")
     plt.show()
     plt.clf()
 
@@ -69,7 +69,7 @@ def boxplots(dfs: List[pd.DataFrame], benchmark_name: str, save_boxplots: bool, 
     plt.xticks(rotation=90)
     plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
     plt.ylabel("predict-time in seconds")
-    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_predict.png", bbox_inches="tight")
+    if save_plots: plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_predict.png", bbox_inches="tight")
     plt.show()
     plt.clf()
 
@@ -77,11 +77,11 @@ def boxplots(dfs: List[pd.DataFrame], benchmark_name: str, save_boxplots: bool, 
     plt.xticks(rotation=90)
     plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
     plt.ylabel("predict-time in seconds")
-    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_predict_bar.png", bbox_inches="tight")
+    if save_plots: plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_predict_bar.png", bbox_inches="tight")
     plt.show()
     plt.clf()
 
-def times(dfs: List[pd.DataFrame], benchmark_name: str, save_boxplots: bool, base_column: str):
+def times(dfs: List[pd.DataFrame], benchmark_name: str, save_plots: bool, base_column: str):
     get_intervals_time_dict = {}
     transform_time_dict = {}
     fit_randomforest_time_dict = {}
@@ -105,25 +105,52 @@ def times(dfs: List[pd.DataFrame], benchmark_name: str, save_boxplots: bool, bas
     plt.ylim(0, 2)
     plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
     plt.ylabel("seconds")
-    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_time_get_intervals.png", bbox_inches="tight")
+    if save_plots: plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_time_get_intervals_bar.png", bbox_inches="tight")
     plt.show()
     plt.clf()
 
-    sns.barplot(data=transform_time_dfs, estimator=np.mean, capsize=.2).set_title('transform_time')
+    sns.boxplot(data=get_intervals_time_dfs).set_title('get_intervals')
+    plt.xticks(rotation=90)
+    plt.ylim(0, 10)
+    plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
+    plt.ylabel("seconds")
+    if save_plots: plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_time_get_intervals.png", bbox_inches="tight")
+    plt.show()
+    plt.clf()
+    
+    sns.barplot(data=transform_time_dfs, estimator=np.mean, capsize=.2).set_title('transform')
     plt.xticks(rotation=90)
     plt.ylim(0, 2)
     plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
     plt.ylabel("seconds")
-    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_time_transform.png", bbox_inches="tight")
+    if save_plots: plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_time_transform_bar.png", bbox_inches="tight")
     plt.show()
     plt.clf()
 
-    sns.barplot(data=fit_randomforest_time_dfs, estimator=np.mean, capsize=.2).set_title('fit_randomforest_time')
+    sns.boxplot(data=transform_time_dfs).set_title('transform')
+    plt.xticks(rotation=90)
+    plt.ylim(0, 10)
+    plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
+    plt.ylabel("seconds")
+    if save_plots: plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_time_transform.png", bbox_inches="tight")
+    plt.show()
+    plt.clf()
+
+    sns.barplot(data=fit_randomforest_time_dfs, estimator=np.mean, capsize=.2).set_title('fit_randomforest')
     plt.xticks(rotation=90)
     plt.ylim(0, 2)
     plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
     plt.ylabel("seconds")
-    if(save_boxplots): plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_time_fit_randomforest.png", bbox_inches="tight")
+    if save_plots: plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_time_fit_randomforest_bar.png", bbox_inches="tight")
+    plt.show()
+    plt.clf()
+
+    sns.boxplot(data=fit_randomforest_time_dfs).set_title('fit_randomforest')
+    plt.xticks(rotation=90)
+    plt.ylim(0, 10)
+    plt.xlabel(base_column) # hier immer den Parameter wählen der variiert wird
+    plt.ylabel("seconds")
+    if save_plots: plt.savefig("./results/" + benchmark_name + "/" + benchmark_name + "_time_fit_randomforest.png", bbox_inches="tight")
     plt.show()
     plt.clf()
 
