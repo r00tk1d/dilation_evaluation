@@ -4,6 +4,7 @@ import pandas as pd
 import seaborn as sns
 import numpy as np
 
+
 # for visualizing the whole data
 def plots(dfs: List[pd.DataFrame], benchmark_name: str, save_plots: bool, base_column: str):
     acc_dict = {}
