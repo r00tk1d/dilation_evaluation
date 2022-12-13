@@ -305,7 +305,7 @@ from typing import Dict, List
 
 DATA_PATH = "./Univariate_ts"
 datasets = make_datasets(
-    path=DATA_PATH, dataset_cls=UEADataset, names=all_datasets
+    path=DATA_PATH, dataset_cls=UEADataset, names=fast_datasets
 )
 # ["ArrowHead", "Car", "CBF", "Coffee"]
 # ["ArrowHead"]
@@ -371,7 +371,7 @@ def generate_clfs(list_of_parameters):
             "max_feature_count": params[6],
             "max_win_len_prop": params[7]}
 
-        clfs.append([ContractableBOSSDilation(**cboss_dilation_params), "CBOSS_Dilation", cboss_results_cols, list(cboss_dilation_params.values())])
+        #clfs.append([ContractableBOSSDilation(**cboss_dilation_params), "CBOSS_Dilation", cboss_results_cols, list(cboss_dilation_params.values())])
 
     return clfs
 
@@ -383,15 +383,26 @@ def generate_clfs(list_of_parameters):
 
 import benchmark
 import os
+import numpy as np
+import time
 
-benchmark_name= "CBOSS_DILATION_UCR_best_params"
+benchmark_name= "CBOSS_fast_runtime"
 save_data = True
 
 if save_data: os.mkdir("./results/" + benchmark_name)
 parameters = generate_parameters()
 clfs = generate_clfs(parameters)
 
-
+gesamt_process_time = time.process_time()
+gesamt_time = time.time()
+print("start_process_time ", time.process_time())
+print("start_time", time.time())
 all_results, all_results_mean = benchmark.run(clfs=clfs,datasets=datasets, benchmark_name=benchmark_name, save_data=save_data)
+print("end_process_time ", time.process_time())
+print("end_time ", time.time())
+gesamt_process_time = np.round(time.process_time() - gesamt_process_time, 5)
+print("gesamt_process_time", gesamt_process_time)
+gesamt_time = np.round(time.time() - gesamt_time, 5)
+print("gesamt_time", gesamt_time)
 
 

@@ -1,0 +1,2 @@
+,Classifier,Dataset,Accuracy,Fit-Time,Predict-Time,total_feature_count,dilations_per_param_comb,win_lengths,norm_options,word_lengths,alphabet_size,feature_selection,max_feature_count,max_win_len_prop
+0,CBOSS,ALL_AVERAGE,0.8454051999999999,3.5725328000000003,4.110142000000001,100634.92,0,-1,"[True, False]","[16, 14, 12, 10, 8]",4,none,256,-1.0

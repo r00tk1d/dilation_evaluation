@@ -1,0 +1,40 @@
+TSF UCR: (245 seconds)
+start_process_time  12.061304278
+start_time 1670836986.099913
+end_process_time  12.812337269
+end_time  1670837231.1830702
+gesamt_process_time 0.7511
+gesamt_time 245.08328
+
+
+TSF Dilation best params UCR: (170 seconds)
+start_process_time  13.448235031
+start_time 1670837866.8545337
+end_process_time  14.153760227
+end_time  1670838037.2686043
+gesamt_process_time 0.70557
+gesamt_time 170.41416
+
+CBOSS UCR: (4792 seconds)
+start_process_time  14.507805806
+start_time 1670838877.372628
+end_process_time  15.302036586
+end_time  1670843669.6299639
+gesamt_process_time 0.79433
+gesamt_time 4792.25755
+
+CBOSS Dilation best params UCR: (716 seconds)
+start_process_time  14.512453382
+start_time 1670847085.600487
+end_process_time  15.294211845
+end_time  1670847801.6682093
+gesamt_process_time 0.78183
+gesamt_time 716.06788
+
+TSF fast:
+start_process_time  13.926923666
+start_time 1670924890.2046306
+end_process_time  14.599707738
+end_time  1670924931.774752
+gesamt_process_time 0.67339
+gesamt_time 41.5730

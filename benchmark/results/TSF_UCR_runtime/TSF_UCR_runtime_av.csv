@@ -1,0 +1,2 @@
+,Classifier,Dataset,Accuracy,Fit-Time,Predict-Time,total_feature_count,get_intervals_time,transform_time,fit_randomforest_time,n_intervals_prop,interval_length_prop,interval_lengths,max_dilation_size,n_estimators,n_intervals
+0,TSF,ALL_AVERAGE,0.7862424545454545,11.634862636363636,7.596107818181818,12218.181818181818,0,0,0,-1.0,-1.0,base clf,-1,-1,-1

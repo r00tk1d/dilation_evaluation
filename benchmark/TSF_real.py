@@ -342,7 +342,7 @@ def generate_clfs(possible_parameters):
         "max_dilation_size",
         "n_estimators",
         "n_intervals",]
-    clfs = [[TimeSeriesForestClassifier(), "TSF", tsf_results_cols, [-1.0, -1.0, "base clf", -1, -1, -1]]] #
+    clfs = [] #[TimeSeriesForestClassifier(), "TSF", tsf_results_cols, [-1.0, -1.0, "base clf", -1, -1, -1]]
     for params in possible_parameters:
 
         tsf_params = {
@@ -363,15 +363,27 @@ def generate_clfs(possible_parameters):
 
 import benchmark_tsf
 import os
+import time
+import numpy as np
 
-benchmark_name = "TSF_DILATION_REAL_UCR_best_params"
+benchmark_name = "TSF_Dilation_UCR_runtime"
 save_data = True
 
 if save_data: os.mkdir("./results/" + benchmark_name)
 parameters = generate_parameters()
 clfs = generate_clfs(parameters)
 
+gesamt_process_time = time.process_time()
+gesamt_time = time.time()
+print("start_process_time ", time.process_time())
+print("start_time", time.time())
 all_results, all_results_mean = benchmark_tsf.run(clfs=clfs,datasets=datasets, benchmark_name=benchmark_name, save_data=save_data)
+print("end_process_time ", time.process_time())
+print("end_time ", time.time())
+gesamt_process_time = np.round(time.process_time() - gesamt_process_time, 5)
+print("gesamt_process_time", gesamt_process_time)
+gesamt_time = np.round(time.time() - gesamt_time, 5)
+print("gesamt_time", gesamt_time)
 
 
 # In[6]:
