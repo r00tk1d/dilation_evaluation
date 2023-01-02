@@ -6,8 +6,8 @@
 <code>conda activate benchmarkenv</code>
 3. Execute <code>pip install --editable .[dev]</code> in sktime_dilation Repo
 4. Install other dependencies into the conda environment
-5. Download UCRArchive_2018 (Univariate_ts) and copy 'Univariate_ts' folder into the root directory of this Repo
-6. Use the main.ipynb to benchmark with different parameters
+5. Download UCRArchive_2018 (Univariate_ts) and copy 'Univariate_ts' folder into the benchmark directory of this Repo
+6. Use the TSF_real.ipynb or BOSS.ipynb to run benchmarks with different parameters
 
 ### Good to know ###
 If you change something in the sktime_dilation repo, restart the jupyter notebook kernel to apply the changes to the jupyter notebook
